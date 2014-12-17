@@ -34,36 +34,31 @@
     <script src="xhr.js"></script>
     
     <script>
-        var onDeviceReady = function () {                             // called when Cordova is ready
-            if (window.Cordova && navigator.splashscreen) {     // Cordova API detected
+        $.ui.autoLaunch = false;
+        $.ui.backButtonText = "Back";
+
+        var onDeviceReady = function () {                           
+            if (window.Cordova && navigator.splashscreen) {      
                 $.ui.launch();
-                navigator.splashscreen.hide();                 // hide splash screen
+                $("li a").on("click", function () {
+
+                    var room = $(this).attr("id");
+                    localStorage.setItem("room", room);
+                    window.location = "room.html";
+
+                });
+              
+                $("#menu").remove();
             }
         };
         document.addEventListener("deviceready", onDeviceReady, false);
     </script>
 
     <script>
-        $.ui.autoLaunch = false;
-        $.ui.backButtonText = "Back";
+    
 
         $(document).ready(function () {
-            $.ui.launch();
-            $("li a").on("click", function () {
-
-                var room = $(this).attr("id");
-                localStorage.setItem("room", room);
-                window.location = "room.html";
-
-            });
-            //$("li").on("click", function () {
-
-            //    var room = $(this).attr("id");
-            //    localStorage.setItem("room", room);
-            //    window.location = "room.html";
-
-            //});
-            $("#menu").remove();
+        
         });
 
     </script>

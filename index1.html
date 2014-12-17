@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <title>Chat</title>
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
+    <script type="text/javascript" src="http://bathindavarinder-001-site1.smarterasp.net/signalR/hubs"></script>
+    <!--<script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>-->
+    <style type="text/css">
+        .ui-title
+        {
+            font-weight: bold;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
+
+            // Grab the hub by name, the same name as specified on the server
+            var chat = $.connection.chatHub;
+
+
+
+            $.connection.hub.start().done(function () {
+
+                var myClientId = $.connection.hub.id;
+
+                chat.server.updateName(myClientId, $('#displayname').val());
+            });
+
+            $.connection.hub.logging = true;
+            // Get the user name and store it to prepend to messages.
+
+            if (localStorage.getItem("Name") == undefined) {
+                $('#displayname').val(prompt('Enter your name:', ''));
+                localStorage.setItem("Name", $('#displayname').val());
+            } else {
+                $('#displayname').val(localStorage.getItem("Name"));
+            }
+            
+
+
+            // Declare a function on the chat hub so the server can invoke it          
+            chat.client.sendMessage = function (name, message) {
+                var encodedName = $('<div />').text(name).html();
+                var encodedMsg = $('<div />').text(message).html();
+                $('#messages').append('<li>' + encodedName +
+                    ':  ' + encodedMsg + '</li>');
+            };
+
+            chat.client.updateList = function (names) {
+                var users = names.split(",");
+                $('#users').empty();
+                $.each(users, function (index, chunk) {
+                    $('#users').append('<li>' + index + " : " + chunk + '</li>');
+                });
+            };
+            // Start the connection
+            $.connection.hub.start().done(function () {
+                $("#send").click(function () {
+                    // Call the chat method on the server
+                    chat.server.send($('#displayname').val(), $('#to').val(), $('#msg').val());
+                    $('#msg').val("");
+                });
+            });
+
+            
+            $.connection.hub.connectionSlow(function () {
+                alert("week network");
+            });
+
+
+            var tryingToReconnect = false;
+
+            $.connection.hub.reconnecting(function () {
+                tryingToReconnect = true;
+            });
+
+            $.connection.hub.reconnected(function () {
+                tryingToReconnect = false;
+            });
+
+            $.connection.hub.disconnected(function () {
+
+                chat.server.RemoveUser($('#displayname').val());
+
+                setTimeout(function () {
+                    $.connection.hub.start();
+                }, 5000);
+
+            });
+
+
+        });
+    </script>
+</head>
+<body>
+    <div id="home" data-role="page">
+        <div data-role="header">
+            <h1>
+                Chat!</h1>
+        </div>
+        <div data-role="content">
+            <h2>
+                Chat your heart out...</h2>
+           Users : <ul id="users">
+        </ul>
+            <div>
+                <textarea id="msg"></textarea>
+                <textarea id="to"></textarea>
+                <br />
+                <a id="send" data-role="button">Send Chat Message</a>
+                <input type="button" id="displayname" />
+            </div>
+            <ul id="messages">
+            </ul>
+        </div>
+        <div data-role="footer" data-position="fixed">
+            Thank you for chatting
+        </div>
+    </div>
+</body>
+</html>

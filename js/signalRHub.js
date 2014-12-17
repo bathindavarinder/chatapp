@@ -10,12 +10,13 @@
     //    chat = $.connection.chatHub;
     //};
 
-    //$.initiateConnection = function () {
+    $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
+    chat = $.connection.chatHub;
+    $.initiateConnection = function () {
 
         // Grab the hub by name, the same name as specified on the server
 
-        $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
-        chat = $.connection.chatHub;
+     
         $.connection.hub.start().done(function () {
             var myClientId = $.connection.hub.id;
             localStorage.setItem("ConnId", myClientId);
@@ -26,7 +27,7 @@
 
             $.JoinRoom(room, name);
         });
-    //};
+    };
 
     $.openRooms = function () {
         window.location = "rooms.html";

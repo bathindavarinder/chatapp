@@ -36,8 +36,33 @@
     <script>
         var onDeviceReady = function () {                             // called when Cordova is ready
             if (window.Cordova && navigator.splashscreen) {     // Cordova API detected
+                $.ui.setSideMenuWidth('260px');
                 $.ui.launch();
-                navigator.splashscreen.hide();                 // hide splash screen
+
+                var room = localStorage.getItem("room");
+                var name = localStorage.getItem("Name");
+
+                $(".HeadName").text(room);
+                $.initiateConnection();
+              
+
+                $('#Back').on("click", function () {
+                    var name = localStorage.getItem("Name");
+                    var room = localStorage.getItem("room");
+                    $.leaveRoom(room, name);
+                    window.location = "rooms.html";
+                });
+
+                var $body = $('body');
+                var scaleSource = $body.width();
+                $("#Send").on("click", function () {
+                    var Message = $("#HomeMessage").val();
+                    var room = localStorage.getItem("room");
+
+                    $.SendGroupMessage(room, name, Message);
+
+                    $("#HomeMessage").val("");
+                });                // hide splash screen
             }
         };
         document.addEventListener("deviceready", onDeviceReady, false);
@@ -48,30 +73,7 @@
         $.ui.animateHeaders = false;
 
         $(document).ready(function () {
-            $.ui.setSideMenuWidth('260px');
-            $.ui.launch();
-
-            var room = localStorage.getItem("room");
-            var name = localStorage.getItem("Name");
-
-            $(".HeadName").text(room);
-            //$.initiateConnection();
-            // promise.then($.JoinRoom(room, name));
-
-            $('#Back').on("click", function () {
-                window.location = "rooms.html";
-            });
-
-            var $body = $('body');
-            var scaleSource = $body.width();
-            $("#Send").on("click", function () {
-                var Message = $("#HomeMessage").val();
-                var room = localStorage.getItem("room");
-
-                $.SendGroupMessage(room, name, Message);
-
-                $("#HomeMessage").val("");
-            });
+          
         });
 
         $(document).unload(function () {
