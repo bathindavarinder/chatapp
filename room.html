@@ -35,7 +35,10 @@
 
     <script>
         var onDeviceReady = function () {                             // called when Cordova is ready
-            if (window.Cordova && navigator.splashscreen) {     // Cordova API detected
+            if (window.Cordova && navigator.splashscreen) {
+
+                $.initiateConnection();
+                // Cordova API detected
                 $.ui.setSideMenuWidth('210px');
                 $.ui.launch();
 
@@ -43,7 +46,7 @@
                 var name = localStorage.getItem("Name");
 
                 $(".HeadName").text(room);
-                $.initiateConnection();
+
 
 
                 $('#Back').on("click", function () {
@@ -66,6 +69,9 @@
             }
         };
         document.addEventListener("deviceready", onDeviceReady, false);
+        document.addEventListener("backbutton", function (e) {
+            navigator.app.backHistory()
+        }, false);
     </script>
 
     <script>
@@ -130,10 +136,30 @@
             text-align: left;
             width: 60%;
         }
+
+        #loading {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(192, 192, 192, 0.5);
+            background-image: url("http://i.stack.imgur.com/MnyxU.gif");
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #afui {
+            display: none;
+        }
     </style>
 
 </head>
 <body>
+
+    <div id="loading"></div>
     <div id="afui">
 
         <!--Left Side Menu Navigation bar -->

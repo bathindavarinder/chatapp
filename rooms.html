@@ -48,6 +48,9 @@
             }
         };
         document.addEventListener("deviceready", onDeviceReady, false);
+        document.addEventListener("backbutton", function (e) {
+            navigator.app.exitApp();
+        },false);
     </script>
 
     <script>

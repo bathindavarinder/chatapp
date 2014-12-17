@@ -10,6 +10,9 @@
     //    chat = $.connection.chatHub;
     //};
 
+    show('afui', false);
+    show('loading', true);
+
     $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
     chat = $.connection.chatHub;
     $.initiateConnection = function () {
@@ -26,8 +29,14 @@
 
 
             $.JoinRoom(room, name);
+            show('afui', true);
+            show('loading', false);
         });
     };
+
+    function show(id, value) {
+        document.getElementById(id).style.display = value ? 'block' : 'none';
+    }
 
     $.openRooms = function () {
         window.location = "rooms.html";
