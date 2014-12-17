@@ -1873,8 +1873,8 @@ color:inherit;
 #afui.android input[type="number"], #afui.android input[type="email"],
 #afui.android input[type="url"], #afui.android input[type="tel"],
 #afui.android input[type="color"], #afui.android .input-group {
-	background:inherit;
-	color:inherit;
+	background:white;
+	color:black;
 }
 
 #afui.android input.toggle+label:after { color:inherit; }
