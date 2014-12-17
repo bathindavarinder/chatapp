@@ -40,12 +40,13 @@
                 if (localStorage.getItem("Name") != undefined) {
 
                     $.ui.loadContent("main", null, null, "fade");
-
+                    navigator.splashscreen.hide();
                     setTimeout(window.location = "rooms.html", 5000);
 
 
                 } else {
                     $.ui.launch();
+                    navigator.splashscreen.hide();
                 }
 
                 $("#register").on("click", function () {
