@@ -11,12 +11,13 @@
     //};
 
   //  show('afui', false);
-    show('loading', true);
+   
 
     $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
     chat = $.connection.chatHub;
     $.initiateConnection = function () {
-
+        show('afui', false);
+        show('loading', true);
         // Grab the hub by name, the same name as specified on the server
 
 
@@ -29,7 +30,7 @@
 
 
             $.JoinRoom(room, name);
-            //show('afui', true);
+            show('afui', true);
             show('loading', false);
         });
     };
