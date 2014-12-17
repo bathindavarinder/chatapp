@@ -51,7 +51,12 @@
 
         }, 2000);
 
-        $("#userList").append('<li>' + name + '</li>')
+        $("#userList").append('<li id="' + name + '">' + name + '</li>')
+
+    };
+
+    chat.client.leftRoom = function (name) {
+        $('#' + name).remove();
     };
 
     chat.client.addChatMessage = function (message) {
