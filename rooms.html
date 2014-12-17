@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Left Side Menu App template</title>
+    <!--
+    This template can be used for simple app with left side menu that can be opened to switch views, for applications like Youtube App or Gmail app.
+-->
+
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0;" />
+
+    <link rel="stylesheet" type="text/css" href="appframework/af.ui.css" />
+    <link rel="stylesheet" type="text/css" href="appframework/icons.css" />
+
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
+    <script type="text/javascript" charset="utf-8" src="appframework/jq.appframework.js"></script>
+    <script type="text/javascript" charset="utf-8" src="appframework/appframework.ui.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
+
+    <script src="signalr/hubs" type="text/javascript"></script>
+
+
+    <script type="text/javascript" charset="utf-8" src="js/signalRHub.js"></script>
+
+    <!--AppFramework plugin for sliding side menu-->
+    <script type="text/javascript" charset="utf-8" src="appframework/plugins/af.slidemenu.js"></script>
+
+    <!-- phantom library, needed for XDK "legacy" container api calls -->
+    <script src="intelxdk.js"></script>
+    <!-- phantom library, needed for Cordova api calls -->
+    <script src="cordova.js"></script>
+    <!-- phantom library, needed for XDK "legacy" container CORS -->
+    <script src="xhr.js"></script>
+    
+    <script>
+        var onDeviceReady = function () {                             // called when Cordova is ready
+            if (window.Cordova && navigator.splashscreen) {     // Cordova API detected
+                $.ui.launch();
+                navigator.splashscreen.hide();                 // hide splash screen
+            }
+        };
+        document.addEventListener("deviceready", onDeviceReady, false);
+    </script>
+
+    <script>
+        $.ui.autoLaunch = false;
+        $.ui.backButtonText = "Back";
+
+        $(document).ready(function () {
+            $.ui.launch();
+            $("li a").on("click", function () {
+
+                var room = $(this).attr("id");
+                localStorage.setItem("room", room);
+                window.location = "room.html";
+
+            });
+            //$("li").on("click", function () {
+
+            //    var room = $(this).attr("id");
+            //    localStorage.setItem("room", room);
+            //    window.location = "room.html";
+
+            //});
+            $("#menu").remove();
+        });
+
+    </script>
+</head>
+<body>
+    <div id="afui">
+        <div id="content" style="">
+
+            <!--List View Page-->
+            <div class="panel" title="Title" id="listview" data-footer="none" selected="true">
+                <header>
+
+                    <h1>Rooms</h1>
+                </header>
+                <ul class="list">
+
+                    <li><a href="#" id="Punjab">Punjab</a></li>
+                    <li><a href="#" id="Haryana">Haryana</a></li>
+                    <li><a href="#" id="Delhi">Delhi</a></li>
+                    <li><a href="#" id="Chandigarh">Chandigarh</a></li>
+                    <li><a href="#" id="Mumbai">Mumbai</a></li>
+                    <li><a href="#" id="Pune">Pune</a></li>
+                    <li><a href="#" id="Banglore">Banglore</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

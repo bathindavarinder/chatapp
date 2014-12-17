@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Login template</title>
+    <!--
+    This template can be used for creating apps that require user login and user registration before starting actual app.
+-->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0;" />
+
+    <link rel="stylesheet" type="text/css" href="appframework/af.ui.css" />
+    <link rel="stylesheet" type="text/css" href="appframework/icons.css" />
+   
+    
+
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="appframework/af.ui.jquery.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    
+    <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
+    
+    <!--<script type="text/javascript" src="http://bathindavarinder-001-site1.smarterasp.net/signalR/hubs"></script>-->
+     <!--<script src="signalr/hubs" type="text/javascript"></script>-->
+    
+    <!--<script type="text/javascript" charset="utf-8" src="js/signalRHub.js"></script>-->
+    <!-- phantom library, needed for XDK "legacy" container api calls -->
+    <script src="intelxdk.js"></script>
+    <!-- phantom library, needed for Cordova api calls -->
+    <script src="cordova.js"></script>
+    <!-- phantom library, needed for XDK "legacy" container CORS -->
+    <script src="xhr.js"></script>
+
+    <script>
+        var onDeviceReady = function () {                             // called when Cordova is ready
+            //if (window.Cordova && navigator.splashscreen) {     // Cordova API detected
+            //    $.ui.launch();
+            //    navigator.splashscreen.hide();                 // hide splash screen
+            //}
+        };
+        document.addEventListener("deviceready", onDeviceReady, false);
+    </script>
+
+    <script>
+        //$.ui.autoLaunch = false;
+        //$.ui.backButtonText = "Back";
+
+        $(document).ready(function () {
+
+            //$.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
+
+            //// Grab the hub by name, the same name as specified on the server
+            //var chat = $.connection.chatHub;
+
+
+            //  $.initiateConnection();
+
+
+            //$.ui.setSideMenuWidth('260px');
+            //localStorage.setItem("Name", "varinder");
+            if (localStorage.getItem("Name") != undefined) {
+
+                $.ui.loadContent("main", null, null, "fade");
+
+                $.openRooms();
+
+
+            } else {
+                $.ui.launch();
+            }
+
+            //// setup signin and signup button events
+            //$("#login").on("click", function(){
+            //    signIn();
+            //});
+
+            $("#register").on("click", function () {
+                localStorage.setItem("Name", $("name").val());
+                signUp();
+            });
+        });
+
+        function signIn() {
+
+            $.ui.loadContent("main", null, null, "fade");
+        }
+
+        function signUp() {
+
+            // signup code here
+
+            $.ui.loadContent("main", null, null, "fade");
+
+            setTimeout($.openRooms(), 5000);
+        }
+
+        function startApp() {
+            // clears all back button history
+            $.ui.clearHistory();
+
+            // your app code here
+        }
+
+    </script>
+</head>
+<body>
+    <div id="afui">
+
+        <div id="content" style="">
+
+            <!-- Views -->
+
+            <!-- Welcome View -->
+            <div class="panel" title="Welcome" id="page1" data-header="none" data-footer="none" selected="true">
+                <div style="text-align: center">
+                    <br>
+                    <br>
+                    <h1>गपशप </h1>
+                    <br>
+                    <br>
+                    <p>Please register for gapshap</p>
+                    <br>
+                    <br>
+                </div>
+                <ul class="list inset">
+                    <li><a href="#signup" class="icon pencil" style="text-align: center">Register</a></li>
+                </ul>
+            </div>
+
+          
+            <!-- Register View -->
+            <div class="panel" title="Register" id="signup" data-footer="none">
+                <div style="text-align: center">
+                    <br>
+                    <br>
+                    <p>Register</p>
+                    <br>
+                    <br>
+                </div>
+                <input name="name" id="name" type="text" placeholder="Name" />
+<!--                <input name="email" type="text" placeholder="Email" />
+                <input name="username" type="text" placeholder="username" />
+                <input name="password" type="password" placeholder="password" />
+                <input name="password2" type="password" placeholder="confirm password" />-->
+                <a class="button block green" href="#" id="register">Register</a>
+            </div>
+
+            <!-- Main App View -->
+            <div class="panel" title="Start" id="main" data-load="startApp">
+                Fetching rooms......
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
