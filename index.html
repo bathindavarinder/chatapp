@@ -15,7 +15,7 @@
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/jq.appframework.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/appframework.ui.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+   <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
 
     <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
 
@@ -39,9 +39,8 @@
                 // Cordova API detected
                 if (localStorage.getItem("Name") != undefined) {
 
-                    $.ui.loadContent("main", null, null, "fade");
-                    navigator.splashscreen.hide();
-                    setTimeout(window.location = "rooms.html", 5000);
+
+                    window.location = "rooms.html";
 
 
                 } else {
@@ -62,7 +61,7 @@
     </script>
 
     <script>
-      
+
         $(document).ready(function () {
 
             //$.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
@@ -76,15 +75,32 @@
 
             //$.ui.setSideMenuWidth('260px');
             //localStorage.setItem("Name", "varinder");
-         
+
             //// setup signin and signup button events
             //$("#login").on("click", function(){
             //    signIn();
             //});
+            if (localStorage.getItem("Name") != undefined) {
 
-            
-        }); 
-      
+
+                window.location = "rooms.html";
+
+
+            } else {
+                $.ui.launch();
+                navigator.splashscreen.hide();
+            }
+
+            $("#register").on("click", function () {
+                localStorage.setItem("Name", $("#name").val());
+
+                $.ui.loadContent("main", null, null, "fade");
+
+                setTimeout(window.location = "rooms.html", 5000);
+            });
+
+        });
+
 
         //function signUp() {
 

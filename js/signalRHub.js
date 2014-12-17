@@ -16,7 +16,7 @@
 
         // Grab the hub by name, the same name as specified on the server
 
-     
+
         $.connection.hub.start().done(function () {
             var myClientId = $.connection.hub.id;
             localStorage.setItem("ConnId", myClientId);
@@ -46,10 +46,8 @@
 
         var encodedMsg = $('<div />').text(name + " Joined").html();
 
-        setTimeout(function () {
-            $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
-        }, 2000);
+        $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
         $("#userList").append('<li id="' + name + '">' + name + '</li>')
 
@@ -68,10 +66,7 @@
 
 
     };
-
-    setTimeout(function () {
-        $.connection.hub.start();
-    }, 5000);
+ 
     $.SendGroupMessage = function (grpName, name, message) {
         chat.server.sendGroupMessage(grpName, name, message);
     }
