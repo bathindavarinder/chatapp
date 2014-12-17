@@ -9,19 +9,19 @@
 
     <link rel="stylesheet" type="text/css" href="appframework/af.ui.css" />
     <link rel="stylesheet" type="text/css" href="appframework/icons.css" />
-   
-    
+
+
 
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/jq.appframework.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/appframework.ui.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-    
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
     <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
-    
+
     <!--<script type="text/javascript" src="http://bathindavarinder-001-site1.smarterasp.net/signalR/hubs"></script>-->
-     <!--<script src="signalr/hubs" type="text/javascript"></script>-->
-    
+    <!--<script src="signalr/hubs" type="text/javascript"></script>-->
+
     <!--<script type="text/javascript" charset="utf-8" src="js/signalRHub.js"></script>-->
     <!-- phantom library, needed for XDK "legacy" container api calls -->
     <script src="intelxdk.js"></script>
@@ -74,7 +74,7 @@
             //});
 
             $("#register").on("click", function () {
-                localStorage.setItem("Name", $("name").val());
+                localStorage.setItem("Name", $("#name").val());
                 signUp();
             });
         });
@@ -90,7 +90,7 @@
 
             $.ui.loadContent("main", null, null, "fade");
 
-            setTimeout($.openRooms(), 5000);
+            setTimeout(window.location = "rooms.html", 5000);
         }
 
         function startApp() {
@@ -126,7 +126,7 @@
                 </ul>
             </div>
 
-          
+
             <!-- Register View -->
             <div class="panel" title="Register" id="signup" data-footer="none">
                 <div style="text-align: center">
@@ -137,7 +137,7 @@
                     <br>
                 </div>
                 <input name="name" id="name" type="text" placeholder="Name" />
-<!--                <input name="email" type="text" placeholder="Email" />
+                <!--                <input name="email" type="text" placeholder="Email" />
                 <input name="username" type="text" placeholder="username" />
                 <input name="password" type="password" placeholder="password" />
                 <input name="password2" type="password" placeholder="confirm password" />-->
