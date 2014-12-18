@@ -77,7 +77,11 @@
         var users = names.split(",");
 
         $.each(users, function (index, name) {
-            $("#userList").append('<li id="' + name + '">' + name + '</li>')
+            if (name != "") {
+                if ($('#' + name).length == 0) {
+                    $("#userList").append('<li id="' + name + '">' + name + '</li>')
+                }
+            }
         });
 
     };
@@ -91,7 +95,7 @@
         }
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
-        $("#userList").append('<li id="' + name + '">' + name + '</li>')
+     
 
     };
 
