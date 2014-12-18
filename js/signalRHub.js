@@ -96,7 +96,9 @@
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
      
-
+        if ($('#' + name).length == 0) {
+            $("#userList").append('<li id="' + name + '">' + name + '</li>')
+        }
     };
 
     chat.client.confirmLeft = function () {
