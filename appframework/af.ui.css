@@ -1863,8 +1863,8 @@ color:inherit;
     border-top-color:inherit;
 }
 
-#afui.android .afScrollbar {background:white !important;}
-#afui.android.light .afScrollbar {background:black !important;}
+#afui.android .afScrollbar {background:blue !important;}
+#afui.android.light .afScrollbar {background:blue !important;}
 
 #afui.android select, #afui.android textarea, #afui.android input[type="text"],
 #afui.android input[type=search], #afui.android input[type="password"],

@@ -52,12 +52,22 @@
         chat.server.leaveRoom(groupname, name);
     }
 
+    chat.client.updateMembers = function (names) {
+
+        var users = names.split(",");
+
+        $.each(users, function (index, name) {
+            $("#userList").append('<li id="' + name + '">' + name + '</li>')
+        });
+
+    };
+
     chat.client.confirmJoin = function (name) {
 
         var encodedMsg = $('<div />').text(name + " Joined").html();
 
         if (window.background) {
-            $.showNotification(encodedMsg);
+            $.showNotification(name,encodedMsg);
         }
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
@@ -70,20 +80,21 @@
     };
 
     chat.client.addChatMessage = function (message) {
-
+        var n = message.indexOf(":");
+        var name = message.substring(0, n);
         var encodedMsg = $('<div />').text(message).html();
 
 
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
         if (window.background) {
-            $.showNotification(encodedMsg);
+            $.showNotification(name,encodedMsg);
         }
 
     };
 
-    $.showNotification = function (msg) {
-        window.plugin.notification.local.add({ message: msg })
+    $.showNotification = function (title,msg) {
+        window.plugin.notification.local.add({ message: msg, title: title, autoCancel: true })
     }
  
     $.SendGroupMessage = function (grpName, name, message) {
