@@ -40,7 +40,7 @@
 
                 $.ui.launch();
 
-                if (localStorage.getItem("Name") != undefined) {
+                if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name")!= "") {
 
                     $("#logname").text(localStorage.getItem("Name"));
 
@@ -50,7 +50,7 @@
 
 
                 } else {
-                    $.ui.launch();
+                   
                     navigator.splashscreen.hide();
                 }
 
