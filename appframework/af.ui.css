@@ -1782,6 +1782,7 @@ color:inherit;
     background:inherit;
     color:inherit;
     border-color:#33B5E5;
+    border-width:3px;
 }
 
 #afui.android #header .button {
@@ -1793,7 +1794,7 @@ color:inherit;
 
 #afui.android #backButton{
     background: inherit;
-    color:inherit;
+    color:white;
 }
 
 #afui.android .menuButton:after {
@@ -1833,8 +1834,8 @@ color:inherit;
 }
 
 #afui.android #content,#afui.android #content > .panel {
- 	background:inherit;
- 	color:inherit;
+ 	background:white;
+ 	color:black;
 }
 
 #afui.android .list {
