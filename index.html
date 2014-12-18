@@ -37,6 +37,9 @@
         var onDeviceReady = function () {                             // called when Cordova is ready
             if (window.Cordova && navigator.splashscreen) {
                 // Cordova API detected
+
+                $.ui.launch();
+
                 if (localStorage.getItem("Name") != undefined) {
 
                     $("#logname").text(localStorage.getItem("Name"));
@@ -83,10 +86,9 @@
 
         $(document).ready(function () {
 
-
-
+          
         });
-
+         
 
         //function signUp() {
 
@@ -132,7 +134,7 @@
 
 
             <!-- Register View -->
-            <div class="panel" title="Register" id="signup" data-footer="none">
+            <div class="panel" title="Register" id="signup" class="signup" data-footer="none">
                 <div style="text-align: center">
                     <br>
                     <br>
@@ -148,9 +150,8 @@
                 <a class="button block green" href="#" id="register">Register</a>
             </div>
 
-            <div class="panel" title="Start" id="signin" data-load="startApp">
-                Currently logged in with name
-                <p id="logname"></p>
+            <div class="panel" title="Login in" id="signin" data-footer="none">
+                Currently logged in with name : <p id="logname"></p>
                 <ul class="list inset">
                     <li><a href="#changename" class="icon pencil" style="text-align: center">Change Name</a></li>
                     <li><a href="#" id="GoToRooms" class="icon pencil" style="text-align: center">Go To Rooms</a></li>
