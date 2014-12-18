@@ -16,24 +16,42 @@
     $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
     chat = $.connection.chatHub;
     $.initiateConnection = function () {
-        show('afui', false);
-        show('loading', true);
-        // Grab the hub by name, the same name as specified on the server
+
+        if (CheckConnection()) {
+            show('afui', false);
+            show('loading', true);
+            // Grab the hub by name, the same name as specified on the server
 
 
-        $.connection.hub.start().done(function () {
-            var myClientId = $.connection.hub.id;
-            localStorage.setItem("ConnId", myClientId);
-            //chat.server.updateName(myClientId, $('#displayname').val());
-            var name = localStorage.getItem("Name");
-            var room = localStorage.getItem("room");
+            $.connection.hub.start().done(function () {
+                var myClientId = $.connection.hub.id;
+                localStorage.setItem("ConnId", myClientId);
+                //chat.server.updateName(myClientId, $('#displayname').val());
+                var name = localStorage.getItem("Name");
+                var room = localStorage.getItem("room");
 
 
-            $.JoinRoom(room, name);
-            show('afui', true);
-            show('loading', false);
-        });
+                $.JoinRoom(room, name);
+                show('afui', true);
+                show('loading', false);
+            });
+        } else {
+            alert("please check your network.");
+            $.openRooms();
+        }
     };
+
+    function CheckConnection() {
+
+        if (!navigator.network) {
+            // set the parent windows navigator network object to the child window
+            navigator.network = window.top.navigator.network;
+        }
+
+        // return the type of connection found
+        return ((navigator.network.connection.type === "none" || navigator.network.connection.type === null ||
+               navigator.network.connection.type === "unknown") ? false : true);
+    }
 
     function show(id, value) {
         document.getElementById(id).style.display = value ? 'block' : 'none';
@@ -75,6 +93,25 @@
 
     };
 
+    $.connection.hub.disconnected(function () {
+         
+        setTimeout(function () {
+            $.connection.hub.start().done(function () {
+                var myClientId = $.connection.hub.id;
+                localStorage.setItem("ConnId", myClientId);
+                //chat.server.updateName(myClientId, $('#displayname').val());
+                var name = localStorage.getItem("Name");
+                var room = localStorage.getItem("room");
+
+
+                $.JoinRoom(room, name);
+                show('afui', true);
+                show('loading', false);
+            });
+        }, 5000);
+
+    });
+
     chat.client.leftRoom = function (name) {
         $('#' + name).remove();
     };
@@ -100,6 +137,13 @@
     $.SendGroupMessage = function (grpName, name, message) {
         chat.server.sendGroupMessage(grpName, name, message);
     }
+
+    document.addEventListener("offline", onOffline, false);
+    function onOffline() {
+        alert("Internet not connected")
+        $.openRooms();
+    }
+
 
 }(jQuery));
 
