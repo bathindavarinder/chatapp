@@ -58,7 +58,7 @@
                     var name = localStorage.getItem("Name");
                     var room = localStorage.getItem("room");
                     $.leaveRoom(room, name);
-                    window.location = "rooms.html";
+                  //  window.location = "rooms.html";
                 });
 
                 var $body = $('body');
@@ -79,7 +79,7 @@
             var room = localStorage.getItem("room");
             $.leaveRoom(room, name);
 
-            navigator.app.backHistory()
+          //  navigator.app.backHistory()
         }, false);
 
         document.addEventListener("pause", pauseapp, false);

@@ -10,8 +10,8 @@
     //    chat = $.connection.chatHub;
     //};
 
-  //  show('afui', false);
-   
+    //  show('afui', false);
+
 
     $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
     chat = $.connection.chatHub;
@@ -67,9 +67,11 @@
     }
 
     $.leaveRoom = function (groupname, name) {
-        chat.server.leaveRoom(groupname, name);
+        var myClientId = localStorage.getItem("ConnId");
+        chat.server.leaveRoom(groupname, name, myClientId);
     }
 
+  
     chat.client.updateMembers = function (names) {
 
         var users = names.split(",");
@@ -85,7 +87,7 @@
         var encodedMsg = $('<div />').text(name + " Joined").html();
 
         if (window.background) {
-            $.showNotification(name,encodedMsg);
+            $.showNotification(name, encodedMsg);
         }
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
@@ -93,8 +95,12 @@
 
     };
 
+    chat.client.confirmLeft = function () {
+        $.openRooms();
+    };
+
     $.connection.hub.disconnected(function () {
-         
+
         setTimeout(function () {
             $.connection.hub.start().done(function () {
                 var myClientId = $.connection.hub.id;
@@ -125,15 +131,15 @@
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
         if (window.background) {
-            $.showNotification(name,encodedMsg);
+            $.showNotification(name, encodedMsg);
         }
 
     };
 
-    $.showNotification = function (title,msg) {
+    $.showNotification = function (title, msg) {
         window.plugin.notification.local.add({ message: msg, title: title, autoCancel: true })
     }
- 
+
     $.SendGroupMessage = function (grpName, name, message) {
         chat.server.sendGroupMessage(grpName, name, message);
     }
