@@ -38,19 +38,19 @@
             if (window.Cordova && navigator.splashscreen) {
                 // Cordova API detected
 
-                $.ui.launch();
+              
 
-                if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name")!= "") {
+                if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name") != "") {
 
                     $("#logname").text(localStorage.getItem("Name"));
-
+                    $.ui.launch();
                     $.ui.loadContent("signin", null, null, "fade");
 
                     //window.location = "rooms.html";
 
 
                 } else {
-                   
+                    $.ui.launch();
                     navigator.splashscreen.hide();
                 }
 
@@ -83,12 +83,10 @@
     </script>
 
     <script>
+ 
 
-        $(document).ready(function () {
 
-          
-        });
-         
+
 
         //function signUp() {
 
@@ -134,7 +132,7 @@
 
 
             <!-- Register View -->
-            <div class="panel" title="Register" id="signup" class="signup" data-footer="none">
+            <div class="panel" title="Register" id="signup" data-footer="none">
                 <div style="text-align: center">
                     <br>
                     <br>
@@ -151,7 +149,8 @@
             </div>
 
             <div class="panel" title="Login in" id="signin" data-footer="none">
-                Currently logged in with name : <p id="logname"></p>
+                Currently logged in with name :
+                <p id="logname"></p>
                 <ul class="list inset">
                     <li><a href="#changename" class="icon pencil" style="text-align: center">Change Name</a></li>
                     <li><a href="#" id="GoToRooms" class="icon pencil" style="text-align: center">Go To Rooms</a></li>
