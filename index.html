@@ -15,7 +15,7 @@
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/jq.appframework.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/appframework.ui.min.js"></script>
-   <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+    <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
 
     <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
 
@@ -39,8 +39,11 @@
                 // Cordova API detected
                 if (localStorage.getItem("Name") != undefined) {
 
+                    $("#logname").text(localStorage.getItem("Name"));
 
-                    window.location = "rooms.html";
+                    $.ui.loadContent("signin", null, null, "fade");
+
+                    //window.location = "rooms.html";
 
 
                 } else {
@@ -55,16 +58,32 @@
 
                     setTimeout(window.location = "rooms.html", 5000);
                 });
+
+                $("#Submit").on("click", function () {
+                    localStorage.setItem("Name", $("#changenameText").val());
+
+                    $.ui.loadContent("main", null, null, "fade");
+
+                    setTimeout(window.location = "rooms.html", 5000);
+                });
+
+                $("#GoToRooms").on("click", function () {
+                    window.location = "rooms.html"
+                });
+
             }
         };
         document.addEventListener("deviceready", onDeviceReady, false);
+        document.addEventListener("backbutton", function (e) {
+            navigator.app.exitApp();;
+        }, false);
     </script>
 
     <script>
 
         $(document).ready(function () {
 
-            
+
 
         });
 
@@ -129,6 +148,30 @@
                 <a class="button block green" href="#" id="register">Register</a>
             </div>
 
+            <div class="panel" title="Start" id="signin" data-load="startApp">
+                Currently logged in with name
+                <p id="logname"></p>
+                <ul class="list inset">
+                    <li><a href="#changename" class="icon pencil" style="text-align: center">Change Name</a></li>
+                    <li><a href="#" id="GoToRooms" class="icon pencil" style="text-align: center">Go To Rooms</a></li>
+                </ul>
+            </div>
+
+            <div class="panel" title="Change Name" id="changename" data-footer="none">
+                <div style="text-align: center">
+                    <br>
+                    <br>
+                    <p>Change Name</p>
+                    <br>
+                    <br>
+                </div>
+                <input name="name" id="changenameText" type="text" placeholder="Name" />
+                <!--                <input name="email" type="text" placeholder="Email" />
+                <input name="username" type="text" placeholder="username" />
+                <input name="password" type="password" placeholder="password" />
+                <input name="password2" type="password" placeholder="confirm password" />-->
+                <a class="button block green" href="#" id="Submit">Submit</a>
+            </div>
             <!-- Main App View -->
             <div class="panel" title="Start" id="main" data-load="startApp">
                 Fetching rooms......

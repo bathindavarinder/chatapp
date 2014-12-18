@@ -30,12 +30,17 @@
     <script src="intelxdk.js"></script>
     <!-- phantom library, needed for Cordova api calls -->
     <script src="cordova.js"></script>
+
+    <script src="local-notification.js"></script>
     <!-- phantom library, needed for XDK "legacy" container CORS -->
     <script src="xhr.js"></script>
 
     <script>
         var onDeviceReady = function () {                             // called when Cordova is ready
             if (window.Cordova && navigator.splashscreen) {
+
+
+                window.background = false;
 
                 $.initiateConnection();
                 // Cordova API detected
@@ -70,8 +75,24 @@
         };
         document.addEventListener("deviceready", onDeviceReady, false);
         document.addEventListener("backbutton", function (e) {
+            var name = localStorage.getItem("Name");
+            var room = localStorage.getItem("room");
+            $.leaveRoom(room, name);
+
             navigator.app.backHistory()
         }, false);
+
+        document.addEventListener("pause", pauseapp, false);
+        function pauseapp() {
+            window.background = true;
+        }
+
+        function resumeapp() {
+            window.background = false;
+        }
+
+        document.addEventListener("resume", resumeapp, false);
+
     </script>
 
     <script>
@@ -143,8 +164,8 @@
             top: 0;
             left: 0;
             z-index: 100;
-            width: 100vw;
-            height: 100vh;
+            width: 50%;
+            height: 50%;
             background-color: rgba(192, 192, 192, 0.5);
             background-image: url("http://i.stack.imgur.com/MnyxU.gif");
             background-repeat: no-repeat;
@@ -182,7 +203,7 @@
                     <h1 id="HeadName" class="HeadName"></h1>
                 </header>
                 <div id="MainComments">
-                    <ul id="ChatWindow" style="overflow: auto"></ul>
+                    <ul id="ChatWindow" style="overflow: auto; background-color: white; color: black"></ul>
                 </div>
                 <div id="Footer">
                     <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
@@ -195,31 +216,6 @@
                     </table>
                 </div>
             </div>
-
-
-            <!--   <div class="panel" title="Favorites" id="page2" data-footer="none">
-            <header>
-                <a id="A1" onclick='$.ui.toggleSideMenu()' class='menuButton' style="float:left !important"></a>
-                <h1>Favorites</h1>
-            </header>
-            <p>This is view for second menu item</p>
-        </div>
-        
-        <div class="panel" title="Messages" id="page3" data-footer="none">
-            <header>
-                <a id="A2" onclick='$.ui.toggleSideMenu()' class='menuButton' style="float:left !important"></a>
-                <h1>Messages</h1>
-            </header>
-            <p>This is view for third menu item</p>
-        </div>
-        
-        <div class="panel" title="Profile" id="page4" data-footer="none">
-            <header>
-                <a id="A3" onclick='$.ui.toggleSideMenu()' class='menuButton' style="float:left !important"></a>
-                <h1>Profile</h1>
-            </header>
-            <ul id="ChatWindow"></ul>
-        </div>-->
 
         </div>
     </div>

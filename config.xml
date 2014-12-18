@@ -39,8 +39,8 @@
   <icon src="res/icon/ios/icon-72.png" gap:platform="ios" width="72" height="72" />
   <icon src="res/icon/ios/icon-57-2x.png" gap:platform="ios" width="114" height="114" />
   <icon src="res/icon/ios/icon-72-2x.png" gap:platform="ios" width="144" height="144" />
-  
-   
+
+  <gap:plugin name="de.appplant.cordova.plugin.local-notification" version="0.7.5" />
   <gap:plugin name="org.apache.cordova.battery-status" version="0.2.11" />
   <gap:plugin name="org.apache.cordova.camera" version="0.3.2" />
   <gap:plugin name="org.apache.cordova.console" version="0.2.11" />

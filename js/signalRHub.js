@@ -56,7 +56,9 @@
 
         var encodedMsg = $('<div />').text(name + " Joined").html();
 
-
+        if (window.background) {
+            $.showNotification(encodedMsg);
+        }
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
         $("#userList").append('<li id="' + name + '">' + name + '</li>')
@@ -74,8 +76,15 @@
 
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
+        if (window.background) {
+            $.showNotification(encodedMsg);
+        }
 
     };
+
+    $.showNotification = function (msg) {
+        window.plugin.notification.local.add({ message: msg })
+    }
  
     $.SendGroupMessage = function (grpName, name, message) {
         chat.server.sendGroupMessage(grpName, name, message);
