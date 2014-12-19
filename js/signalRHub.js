@@ -71,7 +71,7 @@
         chat.server.leaveRoom(groupname, name, myClientId);
     }
 
-  
+
     chat.client.updateMembers = function (names) {
 
         var users = names.split(",");
@@ -98,7 +98,7 @@
         $("#ChatWindow").append(msg);
         msg.focus();
 
-     
+
         if ($('#userList #' + name).length == 0) {
             if (yourname != name)
                 $("#userList").append('<li><a href="#" class="icon chat ui-link" id="' + name + '">' + name + '</li>');
@@ -109,9 +109,23 @@
         $.openRooms();
     };
 
+    $.connection.hub.reconnecting(function () {
+        alert("Reconnecting.......");
+        show('afui', false);
+        show('loading', true);
+    });
+
+    $.connection.hub.reconnected(function () {
+        show('afui', true);
+        show('loading', false);
+    });
+
     $.connection.hub.disconnected(function () {
 
-        setTimeout(function () {
+
+        if (!window.background) {
+
+           
             $.connection.hub.start().done(function () {
                 var myClientId = $.connection.hub.id;
                 localStorage.setItem("ConnId", myClientId);
@@ -121,16 +135,19 @@
 
 
                 $.JoinRoom(room, name);
-                show('afui', true);
-                show('loading', false);
+               
             });
-        }, 5000);
+            
+        } else {
+            $.showNotification("Timeout","You have been pulled out of room because of no activity");
+            $.openRooms();
+        }
 
     });
 
     chat.client.leftRoom = function (name) {
         $('#userList #' + name).parent().remove();
-        $.leftMessage(name + " Left.", name,true);
+        $.leftMessage(name + " Left.", name, true);
     };
 
     chat.client.addChatMessage = function (message) {
@@ -141,7 +158,7 @@
         var msg = $('<li>' + encodedMsg + '</li>');
         $("#ChatWindow").append(msg);
         msg.focus();
-        
+
 
         if (window.background) {
             $.showNotification(name, encodedMsg);
@@ -163,7 +180,7 @@
         $.openRooms();
     }
 
-    $.leftMessage = function (message, by,left) {
+    $.leftMessage = function (message, by, left) {
         if ($('div#' + by).length == 0) {
 
             if (!left) {
@@ -199,7 +216,10 @@
 
     chat.client.recievePersonalChat = function (message, by) {
 
-        $.leftMessage(message, by,false);
+        $.leftMessage(message, by, false);
+        if (window.background) {
+            $.showNotification(by, message);
+        }
     }
 
 
@@ -222,7 +242,7 @@
             var encodedMsg = $('<div />').text(message).html();
             var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
             $('div#' + by + ' .ChatWindow').append(msg);
-          
+
             msg.focus();
 
             if (window.activeUser != by)
@@ -240,6 +260,10 @@
 
             msg.focus();
 
+        }
+
+        if (window.background) {
+            $.showNotification(by, message);
         }
     }
 
