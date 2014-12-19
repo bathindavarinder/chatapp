@@ -97,7 +97,7 @@
         $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
 
      
-        if ($('#' + name).length == 0) {
+        if ($('#userList #' + name).length == 0) {
             if (yourname != name)
                 $("#userList").append('<li><a href="#" class="icon chat ui-link" id="' + name + '">' + name + '</li>');
         }
