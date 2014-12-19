@@ -72,8 +72,11 @@
                     }
 
                     var room = localStorage.getItem("room");
-
-                    $.SendGroupMessage(room, name, Message);
+                    if (window.activeUser == "") {
+                        $.SendGroupMessage(room, name, Message);
+                    } else {
+                        $.SendPersonalMessage(window.activeUser, Message, name);
+                    }
 
                     $("#HomeMessage").val("");
                 });                // hide splash screen
@@ -108,7 +111,7 @@
                         var template = Handlebars.compile(source);
                         var context = { name: username }
                         var html = template(context);
-                        var parentDiv = $("<div  class='panel chwin' style='display:block' id='" + username + "'></div>");
+                        var parentDiv = $("<div  class='panel chwin' style='display:block;height: 85%;' id='" + username + "'></div>");
 
                         $('#RoomChatWindow').css("display", "none");
 
@@ -135,33 +138,33 @@
                     }
                 });
 
-                $('#' + window.activeUser + ' .Chatbtn').on('click', function () {
+                //$('#' + window.activeUser + ' .Chatbtn').on('click', function () {
 
-                    var name = localStorage.getItem("Name");
-                    var message = $('#' + window.activeUser + ' .Textbox').val();
+                //    var name = localStorage.getItem("Name");
+                //    var message = $('#' + window.activeUser + ' .Textbox').val();
 
-                    if (message == "") {
-                        return;
-                    }
+                //    if (message == "") {
+                //        return;
+                //    }
 
-                    $('#' + window.activeUser + ' .Textbox').val("");
-                    $.SendPersonalMessage(window.activeUser, message, name);
-                });
+                //    $('#' + window.activeUser + ' .Textbox').val("");
+                //    $.SendPersonalMessage(window.activeUser, message, name);
+                //});
 
             }
         };
 
-        function personalChat() { 
-            var name = localStorage.getItem("Name");
-            var message = $('#' + window.activeUser + ' .Textbox').val();
+        //function personalChat() {
+        //    var name = localStorage.getItem("Name");
+        //    var message = $('#' + window.activeUser + ' .Textbox').val();
 
-            if (message == "") {
-                return;
-            }
+        //    if (message == "") {
+        //        return;
+        //    }
 
-            $('#' + window.activeUser + ' .Textbox').val("");
-            $.SendPersonalMessage(window.activeUser, message, name);
-        }
+        //    $('#' + window.activeUser + ' .Textbox').val("");
+        //    $.SendPersonalMessage(window.activeUser, message, name);
+        //}
 
         document.addEventListener("deviceready", onDeviceReady, false);
         document.addEventListener("backbutton", function (e) {
@@ -203,8 +206,7 @@
     </script>
     <style>
         .Footer {
-            width: 100%;
-            height: 80px;
+            width: 100%; 
             padding: 1px;
             background-color: #0088D1;
             color: #ffffff;
@@ -271,18 +273,18 @@
         <div id="Div2" class="MainComments">
             <ul id="Ul1" class="ChatWindow" style="overflow: auto; background-color: white; color: black"></ul>
         </div>
-        <div class="Footer">
+        <!--<div class="Footer">
             <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
                 <tr>
                     <td style="width: 80%">
-                        <input  class="Textbox" type="text" style="color: black;  border-radius: 10px; background-color: white" /> 
+                        <input class="Textbox" type="text" style="color: black; border-radius: 10px; background-color: white" />
                     </td>
                     <td style="width: 20%" class="personalChat">
-                        <img src="appframework/Sendbtn1.jpg"  onclick="personalChat()" class="Chatbtn" style="height: 60%; border-radius: 10px; margin-right: 20px" />
+                        <img src="appframework/Sendbtn1.jpg" onclick="personalChat()" class="Chatbtn" style="height: 60%; border-radius: 10px; margin-right: 20px" />
                     </td>
                 </tr>
             </table>
-        </div>
+        </div>-->
     </script>
 </head>
 <body>
@@ -301,7 +303,7 @@
         <div id="content" style="">
 
             <!--Main View Pages-->
-            <div class="panel" title="Home" id="RoomChatWindow" data-footer="none" selected="true">
+            <div class="panel" title="Home" id="RoomChatWindow" style="height: 85%" data-footer="none" selected="true">
                 <header>
                     <a id="menubadge" onclick='$.ui.toggleSideMenu()' class='menuButton' style="float: left !important"></a>
                     <h1 id="HeadName" class="HeadName"></h1>
@@ -309,17 +311,18 @@
                 <div id="MainComments" class="MainComments">
                     <ul id="ChatWindow" class="ChatWindow" style="overflow: auto"></ul>
                 </div>
-                <div id="Footer" class="Footer">
-                    <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
-                        <tr>
-                            <td style="width: 80%">
-                                <input id="HomeMessage" class="Textbox" type="text" style="color: black; width: 100%; border-radius: 30px;" /></td>
-                            <td style="width: 20%">
-                                <img src="appframework/Sendbtn1.jpg" id="Send" style="height: 75%; border-radius: 24px; margin-right: 20px" /> 
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            </div>
+
+            <div id="Footer" class="Footer">
+                <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
+                    <tr>
+                        <td style="width: 80%">
+                            <input id="HomeMessage" class="Textbox" type="text" style="color: black; width: 100%; border-radius: 30px;" /></td>
+                        <td style="width: 20%">
+                            <img src="appframework/Sendbtn1.jpg" id="Send" style="height: 75%; border-radius: 24px; margin-right: 20px" />
+                        </td>
+                    </tr>
+                </table>
             </div>
 
         </div>
