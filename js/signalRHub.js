@@ -94,7 +94,9 @@
         if (window.background) {
             $.showNotification(name, encodedMsg);
         }
-        $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
+        var msg = $('<li>' + encodedMsg + '</li>');
+        $("#ChatWindow").append(msg);
+        msg.focus();
 
      
         if ($('#userList #' + name).length == 0) {
@@ -136,8 +138,10 @@
         var name = message.substring(0, n);
         var encodedMsg = $('<div />').text(message).html();
 
-
-        $("#ChatWindow").append('<li>' + encodedMsg + '</li>');
+        var msg = $('<li>' + encodedMsg + '</li>');
+        $("#ChatWindow").append(msg);
+        msg.focus();
+        
 
         if (window.background) {
             $.showNotification(name, encodedMsg);
@@ -174,9 +178,9 @@
                 $('#content').append(parentDiv);
 
                 var encodedMsg = $('<div />').text(message).html();
-
-                $('div#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
-               
+                var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
+                $('div#' + by + ' .ChatWindow').append(msg);
+                msg.focus();
                 if (window.activeUser != by)
                     $('#userList #' + by).css("background-color", "orange");
             }
@@ -186,9 +190,9 @@
                 $('#userList #' + by).css("background-color", "orange");
 
             var encodedMsg = $('<div />').text(message).html();
-
-            $('div#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
-            
+            var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
+            $('div#' + by + ' .ChatWindow').append(msg);
+            msg.focus();
 
         }
     }
@@ -216,9 +220,10 @@
             $('#content').append(parentDiv);
 
             var encodedMsg = $('<div />').text(message).html();
-
-            $('div#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+            var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+            $('div#' + by + ' .ChatWindow').append(msg);
           
+            msg.focus();
 
             if (window.activeUser != by)
                 $('#userList #' + by).css("background-color", "orange");
@@ -229,7 +234,11 @@
 
             var encodedMsg = $('<div />').text(message).html();
 
-            $('div#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>'); 
+            var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+
+            $('div#' + by + ' .ChatWindow').append(msg);
+
+            msg.focus();
 
         }
     }
