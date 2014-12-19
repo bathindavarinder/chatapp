@@ -176,8 +176,7 @@
                 var encodedMsg = $('<div />').text(message).html();
 
                 $('div#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
-                alert("from msg:" + encodedMsg);
-
+               
                 if (window.activeUser != by)
                     $('#userList #' + by).css("background-color", "orange");
             }
@@ -189,7 +188,7 @@
             var encodedMsg = $('<div />').text(message).html();
 
             $('div#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
-            alert("from msg:" + encodedMsg);
+            
 
         }
     }
@@ -219,7 +218,7 @@
             var encodedMsg = $('<div />').text(message).html();
 
             $('div#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
-            alert("by msg:" + encodedMsg);
+          
 
             if (window.activeUser != by)
                 $('#userList #' + by).css("background-color", "orange");
@@ -230,8 +229,7 @@
 
             var encodedMsg = $('<div />').text(message).html();
 
-            $('div#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
-            alert("by msg:" + encodedMsg);
+            $('div#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>'); 
 
         }
     }
