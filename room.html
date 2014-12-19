@@ -135,18 +135,23 @@
                     }
                 });
 
+                $('#' + window.activeUser + ' .Chatbtn').on('click', function () {
 
-                $(".personalChat").delegate('.Chatbtn', 'click', function () {
+                    var name = localStorage.getItem("Name");
+                    var message = $('#' + window.activeUser + ' .Textbox').val();
 
-                    var name = $(this).siblings(".hiddenname").text();
-                    alert(window.activeUser);
+                    if (message == "") {
+                        return;
+                    }
+
+                    $('#' + window.activeUser + ' .Textbox').val("");
+                    $.SendPersonalMessage(window.activeUser, message, name);
                 });
+
             }
         };
 
-        function personalChat() {
-            var name = $(this).siblings(".hiddenname").text();
-            //alert(window.activeUser);
+        function personalChat() { 
             var name = localStorage.getItem("Name");
             var message = $('#' + window.activeUser + ' .Textbox').val();
 
@@ -266,17 +271,18 @@
         <div id="Div2" class="MainComments">
             <ul id="Ul1" class="ChatWindow" style="overflow: auto; background-color: white; color: black"></ul>
         </div>
-        <div id="Div3" class="Footer">
+        <div class="Footer">
             <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
                 <tr>
                     <td style="width: 80%">
-                        <input id="Text1" class="Textbox" type="text" style="color: black; width: 100%; border-radius: 10px; background-color: white" /></td>
+                        <input  class="Textbox" type="text" style="color: black; width: 100%; border-radius: 10px; background-color: white" /> 
+                    </td>
                     <td style="width: 20%" class="personalChat">
-                        <p class="hiddenname" style="display: none">{{name}}</p>
-                        <img src="appframework/Sendbtn1.jpg" id="Chatbtn" onclick="personalChat()" class="Chatbtn" style="height: 60%; border-radius: 10px; margin-right: 20px" /></td>
+                        <img src="appframework/Sendbtn1.jpg"  onclick="personalChat()" class="Chatbtn" style="height: 60%; border-radius: 10px; margin-right: 20px" />
+                    </td>
                 </tr>
             </table>
-        </div> 
+        </div>
     </script>
 </head>
 <body>
@@ -295,7 +301,7 @@
         <div id="content" style="">
 
             <!--Main View Pages-->
-             <div class="panel" title="Home" id="RoomChatWindow" data-footer="none" selected="true">
+            <div class="panel" title="Home" id="RoomChatWindow" data-footer="none" selected="true">
                 <header>
                     <a id="menubadge" onclick='$.ui.toggleSideMenu()' class='menuButton' style="float: left !important"></a>
                     <h1 id="HeadName" class="HeadName"></h1>
@@ -309,7 +315,8 @@
                             <td style="width: 80%">
                                 <input id="HomeMessage" class="Textbox" type="text" style="color: black; width: 100%; border-radius: 30px;" /></td>
                             <td style="width: 20%">
-                                <img src="appframework/Sendbtn1.jpg" id="Send" style="height: 75%; border-radius: 24px; margin-right: 20px" /><!--  <button value="Send" id="Send">Send</button>--></td>
+                                <img src="appframework/Sendbtn1.jpg" id="Send" style="height: 75%; border-radius: 24px; margin-right: 20px" /> 
+                            </td>
                         </tr>
                     </table>
                 </div>

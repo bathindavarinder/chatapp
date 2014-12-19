@@ -127,7 +127,8 @@
     });
 
     chat.client.leftRoom = function (name) {
-        $('#' + name).parent.remove();
+        $('#userList #' + name).parent().remove();
+        $.leftMessage(name + " Left.", name);
     };
 
     chat.client.addChatMessage = function (message) {
@@ -158,10 +159,7 @@
         $.openRooms();
     }
 
-
-
-    chat.client.recievePersonalChat = function (message, by) {
-
+    $.leftMessage = function (message, by) {
         if ($('div#' + by).length == 0) {
 
             var source = $("#personal-template").html();
@@ -192,6 +190,11 @@
 
 
         }
+    }
+
+    chat.client.recievePersonalChat = function (message, by) {
+
+        $.leftMessage(message, by);
     }
 
 
