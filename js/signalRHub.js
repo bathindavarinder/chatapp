@@ -75,11 +75,12 @@
     chat.client.updateMembers = function (names) {
 
         var users = names.split(",");
-
+        var yourname = localStorage.getItem("Name");
         $.each(users, function (index, name) {
             if (name != "") {
                 if ($('#' + name).length == 0) {
-                    $("#userList").append('<li id="' + name + '">' + name + '</li>')
+                    if (yourname != name)
+                        $("#userList").append('<li><a href="#" class="icon chat ui-link" id="' + name + '">' + name + '</li>');
                 }
             }
         });
@@ -89,7 +90,7 @@
     chat.client.confirmJoin = function (name) {
 
         var encodedMsg = $('<div />').text(name + " Joined").html();
-
+        var yourname = localStorage.getItem("Name");
         if (window.background) {
             $.showNotification(name, encodedMsg);
         }
@@ -97,7 +98,8 @@
 
      
         if ($('#' + name).length == 0) {
-            $("#userList").append('<li id="' + name + '">' + name + '</li>')
+            if (yourname != name)
+                $("#userList").append('<li><a href="#" class="icon chat ui-link" id="' + name + '">' + name + '</li>');
         }
     };
 
@@ -125,7 +127,7 @@
     });
 
     chat.client.leftRoom = function (name) {
-        $('#' + name).remove();
+        $('#' + name).parent.remove();
     };
 
     chat.client.addChatMessage = function (message) {
@@ -152,9 +154,88 @@
 
     document.addEventListener("offline", onOffline, false);
     function onOffline() {
-        alert("Internet not connected")
+        alert("please check your network.")
         $.openRooms();
     }
+
+
+
+    chat.client.recievePersonalChat = function (message, by) {
+
+        if ($('div#' + by).length == 0) {
+
+            var source = $("#personal-template").html();
+            var template = Handlebars.compile(source);
+            var context = { name: by }
+            var html = template(context);
+            var parentDiv = $("<div  class='panel chwin' style='display:none' id='" + by + "'></div>");
+
+            parentDiv.html(html);
+
+            $('#content').append(parentDiv);
+
+            var encodedMsg = $('<div />').text(message).html();
+
+            $('#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
+
+
+            if (window.activeUser != by)
+                $('#userList #' + by).css("background-color", "orange");
+        }
+        else {
+            if (window.activeUser != by)
+                $('#userList #' + by).css("background-color", "orange");
+
+            var encodedMsg = $('<div />').text(message).html();
+
+            $('#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
+
+
+        }
+    }
+
+
+    chat.client.byPersonalChat = function (message, by) {
+
+        var yourname = localStorage.getItem("Name");
+
+        if ($('div#' + by).length == 0) {
+
+            var source = $("#personal-template").html();
+            var template = Handlebars.compile(source);
+            var context = { name: by }
+            var html = template(context);
+            var parentDiv = $("<div  class='panel chwin' style='display:none' id='" + by + "'></div>");
+
+            parentDiv.html(html);
+
+            $('#content').append(parentDiv);
+
+            var encodedMsg = $('<div />').text(message).html();
+
+            $('#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+
+
+            if (window.activeUser != by)
+                $('#userList #' + by).css("background-color", "orange");
+        }
+        else {
+            if (window.activeUser != by)
+                $('#userList #' + by).css("background-color", "orange");
+
+            var encodedMsg = $('<div />').text(message).html();
+
+            $('#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+
+
+        }
+    }
+
+    $.SendPersonalMessage = function (name, message, by) {
+        chat.server.sendPersonalMessage(name, message, by);
+    }
+
+
 
 
 }(jQuery));
