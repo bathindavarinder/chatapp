@@ -175,8 +175,8 @@
 
                 var encodedMsg = $('<div />').text(message).html();
 
-                $('#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
-
+                $('div#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
+                alert("from msg:" + encodedMsg);
 
                 if (window.activeUser != by)
                     $('#userList #' + by).css("background-color", "orange");
@@ -188,8 +188,8 @@
 
             var encodedMsg = $('<div />').text(message).html();
 
-            $('#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
-
+            $('div#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
+            alert("from msg:" + encodedMsg);
 
         }
     }
@@ -218,8 +218,8 @@
 
             var encodedMsg = $('<div />').text(message).html();
 
-            $('#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
-
+            $('div#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+            alert("by msg:" + encodedMsg);
 
             if (window.activeUser != by)
                 $('#userList #' + by).css("background-color", "orange");
@@ -230,8 +230,8 @@
 
             var encodedMsg = $('<div />').text(message).html();
 
-            $('#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
-
+            $('div#' + by + ' .ChatWindow').append('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+            alert("by msg:" + encodedMsg);
 
         }
     }
