@@ -124,47 +124,29 @@
                         window.activeUser = username;
                         $('#content').append(parentDiv);
 
-                        $('#userList #' + username).css("background-color", "#00AEEF");
+                        $('#userList #' + username).css("background-color", "#619ef2");
                     }
                     else {
 
                         $.each($('.chwin'), function (name) {
                             $(this).css("display", "none");
                         });
+
+                        $('#RoomChatWindow').css("display", "none");
+
                         window.activeUser = username;
                         $("#HeadName").text(username);
                         $('div#' + username).css("display", "block");
-                        $('#userList #' + username).css("background-color", "#00AEEF");
+                        $('#userList #' + username).css("background-color", "#619ef2");
                     }
                 });
 
-                //$('#' + window.activeUser + ' .Chatbtn').on('click', function () {
-
-                //    var name = localStorage.getItem("Name");
-                //    var message = $('#' + window.activeUser + ' .Textbox').val();
-
-                //    if (message == "") {
-                //        return;
-                //    }
-
-                //    $('#' + window.activeUser + ' .Textbox').val("");
-                //    $.SendPersonalMessage(window.activeUser, message, name);
-                //});
+             
 
             }
         };
 
-        //function personalChat() {
-        //    var name = localStorage.getItem("Name");
-        //    var message = $('#' + window.activeUser + ' .Textbox').val();
-
-        //    if (message == "") {
-        //        return;
-        //    }
-
-        //    $('#' + window.activeUser + ' .Textbox').val("");
-        //    $.SendPersonalMessage(window.activeUser, message, name);
-        //}
+       
 
         document.addEventListener("deviceready", onDeviceReady, false);
         document.addEventListener("backbutton", function (e) {
@@ -268,7 +250,7 @@
 
     <script id="personal-template" type="text/x-handlebars-template">
         <div id="Div2" class="MainComments">
-            <ul id="Ul1" class="ChatWindow" style="overflow: scroll; background-color: white; color: black"></ul>
+            <ul id="Ul1" class="ChatWindow" style="overflow: scroll;"></ul>
         </div>
         <!--<div class="Footer">
             <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
