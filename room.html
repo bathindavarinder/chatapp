@@ -207,6 +207,7 @@
 
         .MainComments {
             /*width: 80%;*/
+             -webkit-overflow-scrolling:touch;
         }
 
         .ChatWindow li {
@@ -246,13 +247,17 @@
         #afui {
             display: block;
         }
-         
+
+        .overthrow-enabled .overthrow {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 
 
     <script id="personal-template" type="text/x-handlebars-template">
-        <div id="Div2" class="MainComments">
-            <ul id="Ul1" class="ChatWindow"></ul>
+        <div id="Div2" class="MainComments scrollBar">
+            <ul id="Ul1" class="ChatWindow scrollBar"></ul>
         </div>
         <!--<div class="Footer">
             <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
@@ -289,8 +294,8 @@
                     <a id="menubadge" onclick='$.ui.toggleSideMenu()' class='menuButton' style="float: left !important"></a>
                     <h1 id="HeadName" class="HeadName"></h1>
                 </header>
-                <div id="MainComments" class="MainComments">
-                    <ul id="ChatWindow" class="ChatWindow"></ul>
+                <div id="MainComments" class="MainComments scrollBar">
+                    <ul id="ChatWindow" class="ChatWindow scrollBar"></ul>
                 </div>
             </div>
 
