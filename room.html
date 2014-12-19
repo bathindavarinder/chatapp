@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <title>Left Side Menu App template</title>
+    <title>Gapshap</title>
     <!--
     This template can be used for simple app with left side menu that can be opened to switch views, for applications like Youtube App or Gmail app.
 -->
@@ -23,6 +23,11 @@
 
     <script type="text/javascript" charset="utf-8" src="js/signalRHub.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/handlebars-v2.0.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/overthrow-detect.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/overthrow-init.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/overthrow-polyfill.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/overthrow-toss.js"></script>
+
 
     <!--AppFramework plugin for sliding side menu-->
     <script type="text/javascript" charset="utf-8" src="appframework/plugins/af.slidemenu.js"></script>
@@ -141,12 +146,12 @@
                     }
                 });
 
-             
+
 
             }
         };
 
-       
+
 
         document.addEventListener("deviceready", onDeviceReady, false);
         document.addEventListener("backbutton", function (e) {
@@ -174,7 +179,7 @@
         $.ui.autoLaunch = false;
         $.ui.animateHeaders = false;
 
-         
+
 
         $(document).unload(function () {
 
@@ -186,10 +191,10 @@
     </script>
     <style>
         .Footer {
-            width: 100%;  
+            width: 100%;
             padding: 1px;
             background-color: #0088D1;
-            color: #ffffff; 
+            color: #ffffff;
             bottom: 0px;
             text-align: center;
             margin-left: auto;
@@ -245,12 +250,17 @@
         #afui {
             display: block;
         }
+
+        .overthrow-enabled .overthrow {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
     </style>
 
 
     <script id="personal-template" type="text/x-handlebars-template">
-        <div id="Div2" class="MainComments" style="overflow:auto;">
-            <ul id="Ul1" class="ChatWindow" style="overflow: auto;"></ul>
+        <div id="Div2" class="MainComments overthrow">
+            <ul id="Ul1" class="ChatWindow overthrow"></ul>
         </div>
         <!--<div class="Footer">
             <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
@@ -282,13 +292,13 @@
         <div id="content" style="">
 
             <!--Main View Pages-->
-            <div class="panel" title="Home" id="RoomChatWindow" style="height: 85%;position:static" data-footer="none" selected="true">
+            <div class="panel" title="Home" id="RoomChatWindow" style="height: 85%; position: static" data-footer="none" selected="true">
                 <header>
                     <a id="menubadge" onclick='$.ui.toggleSideMenu()' class='menuButton' style="float: left !important"></a>
                     <h1 id="HeadName" class="HeadName"></h1>
                 </header>
-                <div id="MainComments" class="MainComments" style="overflow:auto;">
-                    <ul id="ChatWindow" class="ChatWindow" style="overflow:auto;"></ul>
+                <div id="MainComments" class="MainComments overthrow">
+                    <ul id="ChatWindow" class="ChatWindow overthrow"></ul>
                 </div>
             </div>
 
