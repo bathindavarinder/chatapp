@@ -128,7 +128,7 @@
 
     chat.client.leftRoom = function (name) {
         $('#userList #' + name).parent().remove();
-        $.leftMessage(name + " Left.", name);
+        $.leftMessage(name + " Left.", name,true);
     };
 
     chat.client.addChatMessage = function (message) {
@@ -159,26 +159,28 @@
         $.openRooms();
     }
 
-    $.leftMessage = function (message, by) {
+    $.leftMessage = function (message, by,left) {
         if ($('div#' + by).length == 0) {
 
-            var source = $("#personal-template").html();
-            var template = Handlebars.compile(source);
-            var context = { name: by }
-            var html = template(context);
-            var parentDiv = $("<div  class='panel chwin' style='display:none' id='" + by + "'></div>");
+            if (!left) {
+                var source = $("#personal-template").html();
+                var template = Handlebars.compile(source);
+                var context = { name: by }
+                var html = template(context);
+                var parentDiv = $("<div  class='panel chwin' style='display:none;height: 85%;position:static' id='" + by + "'></div>");
 
-            parentDiv.html(html);
+                parentDiv.html(html);
 
-            $('#content').append(parentDiv);
+                $('#content').append(parentDiv);
 
-            var encodedMsg = $('<div />').text(message).html();
+                var encodedMsg = $('<div />').text(message).html();
 
-            $('#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
+                $('#' + by + ' .ChatWindow').append('<li>' + by + ' : ' + encodedMsg + '</li>');
 
 
-            if (window.activeUser != by)
-                $('#userList #' + by).css("background-color", "orange");
+                if (window.activeUser != by)
+                    $('#userList #' + by).css("background-color", "orange");
+            }
         }
         else {
             if (window.activeUser != by)
@@ -194,7 +196,7 @@
 
     chat.client.recievePersonalChat = function (message, by) {
 
-        $.leftMessage(message, by);
+        $.leftMessage(message, by,false);
     }
 
 
@@ -208,7 +210,7 @@
             var template = Handlebars.compile(source);
             var context = { name: by }
             var html = template(context);
-            var parentDiv = $("<div  class='panel chwin' style='display:none' id='" + by + "'></div>");
+            var parentDiv = $("<div  class='panel chwin' style='display:none;height: 85%;position:static' id='" + by + "'></div>");
 
             parentDiv.html(html);
 
