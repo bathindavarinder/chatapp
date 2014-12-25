@@ -42,6 +42,7 @@
 
                 if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name") != "") {
 
+                    navigator.splashscreen.hide();
                     $("#logname").text(localStorage.getItem("Name"));
                     $.ui.launch();
                     $.ui.loadContent("signin", null, null, "fade");
@@ -50,8 +51,9 @@
 
 
                 } else {
-                    $.ui.launch();
                     navigator.splashscreen.hide();
+                    $.ui.launch();
+                    
                 }
 
                 $("#register").on("click", function () {

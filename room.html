@@ -41,12 +41,12 @@
         var onDeviceReady = function () {                             // called when Cordova is ready
             if (window.Cordova && navigator.splashscreen) {
 
-
                 window.background = false;
 
                 $.initiateConnection();
                 // Cordova API detected
                 $.ui.setSideMenuWidth('210px');
+
                 $.ui.launch();
 
                 var room = localStorage.getItem("room");
@@ -54,95 +54,22 @@
 
                 $(".HeadName").text(room);
 
-
-
                 $('#Back').on("click", function () {
-                    var name = localStorage.getItem("Name");
-                    var room = localStorage.getItem("room");
                     $.leaveRoom(room, name);
-                    //  window.location = "rooms.html";
                 });
 
                 var $body = $('body');
                 var scaleSource = $body.width();
                 $("#Send").on("click", function () {
-                    var Message = $("#HomeMessage").val();
-
-                    if (Message == "") {
-                        return;
-                    }
-
-                    var room = localStorage.getItem("room");
-                    if (window.activeUser == "") {
-                        $.SendGroupMessage(room, name, Message);
-                    } else {
-                        $.SendPersonalMessage(window.activeUser, Message, name);
-                    }
-
-                    $("#HomeMessage").val("");
-                });                // hide splash screen
-
-
+                    $.SendMessage();
+                });
 
                 window.activeUser = "";
 
                 $("#userList").delegate("li a", "click", function (e) {
-
-                    $.ui.toggleSideMenu();
                     var username = $(this).attr("id");
-                    var room = localStorage.getItem("room");
-                    var name = localStorage.getItem("Name");
-                    if (username == name || username == "Back") {
-                        return;
-                    }
-                    if (username == "Home") {
-
-                        $.each($('.chwin'), function (name) {
-                            $(this).css("display", "none");
-                        });
-                        $("#HeadName").text(room);
-                        $('#RoomChatWindow').css("display", "block");
-                        window.activeUser = "";
-                        return;
-                    }
-
-                    if ($('div#' + username).length == 0) {
-
-                        var source = $("#personal-template").html();
-                        var template = Handlebars.compile(source);
-                        var context = { name: username }
-                        var html = template(context);
-                        var parentDiv = $("<div  class='panel chwin' style='display:block;height: 85%;position:static' id='" + username + "'></div>");
-
-                        $('#RoomChatWindow').css("display", "none");
-
-                        $("#HeadName").text(username);
-
-                        $.each($('.chwin'), function (name) {
-                            $(this).css("display", "none");
-                        });
-                        parentDiv.html(html);
-                        window.activeUser = username;
-                        $('#content').append(parentDiv);
-
-                        $('#userList #' + username).css("background-color", "#619ef2");
-                    }
-                    else {
-
-                        $.each($('.chwin'), function (name) {
-                            $(this).css("display", "none");
-                        });
-
-                        $('#RoomChatWindow').css("display", "none");
-
-                        window.activeUser = username;
-                        $("#HeadName").text(username);
-                        $('div#' + username).css("display", "block");
-                        $('#userList #' + username).css("background-color", "#619ef2");
-                    }
+                    $.userClick(username);
                 });
-
-
 
             }
         };
@@ -185,96 +112,13 @@
 
         });
     </script>
-    <style>
-        .Footer {
-            width: 100%;
-            padding: 1px;
-            background-color: #0088D1;
-            color: #ffffff;
-            bottom: 0px;
-            text-align: center;
-            margin-left: auto;
-            margin-right: auto;
-            position: fixed;
-            bottom: 0;
-        }
 
-        .Textbox {
-            width: 80%;
-            color: black;
-        }
-
-
-        .MainComments {
-            /*width: 80%;*/
-        }
-
-        .scroll {
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .ChatWindow li {
-            text-decoration: solid;
-            font: 200;
-            font-style: normal;
-            font-size: 17px;
-            margin-bottom: 3px;
-            margin-top: 3px;
-            height: 30px;
-            width: auto;
-            padding-top: 4px;
-            padding-left: 5px;
-        }
-
-        #LeaveComments {
-            margin-left: auto;
-            margin-right: auto;
-            text-align: left;
-            width: 60%;
-        }
-
-        #loading {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 100;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(192, 192, 192, 0.5);
-            background-image: url('appframework/ajax-loader.gif');
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
-        #afui {
-            display: block;
-        }
-
-        .overthrow-enabled .overthrow {
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="css/custom.css" />
 
     <script id="personal-template" type="text/x-handlebars-template">
         <div id="Div2" class="MainComments">
             <ul id="Ul1" class="ChatWindow scroll"></ul>
         </div>
-        <!--<div class="Footer">
-            <table style="width: 100%; margin-left: 17px; margin-top: 10px;">
-                <tr>
-                    <td style="width: 80%">
-                        <input class="Textbox" type="text" style="color: black; border-radius: 10px; background-color: white" />
-                    </td>
-                    <td style="width: 20%" class="personalChat">
-                        <img src="appframework/Sendbtn1.jpg" onclick="personalChat()" class="Chatbtn" style="height: 60%; border-radius: 10px; margin-right: 20px" />
-                    </td>
-                </tr>
-            </table>
-        </div>-->
     </script>
 </head>
 <body>
@@ -309,7 +153,7 @@
                         <td style="width: 80%">
                             <input id="HomeMessage" class="Textbox" type="text" style="color: black; width: 100%; border-radius: 30px;" /></td>
                         <td style="width: 20%">
-                            <img src="appframework/Sendbtn1.jpg" id="Send" style="height: 75%; border-radius: 24px; margin-right: 20px" />
+                            <img src="appframework/Sendbtn1.jpg" id="Send" style="height: 62%; border-radius: 14px; margin-right: 20px" />
                         </td>
                     </tr>
                 </table>
