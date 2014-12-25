@@ -10,11 +10,13 @@
             readyFunction();
         }
     }
-   //$(document).ready(function () {
-   //    readyFunction();
+    if (!window.Cordova) {
+        $(document).ready(function () {
+            readyFunction();
 
-   // });
-    
+        });
+    }
+
 
     function readyFunction() {
         if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name") != "") {
@@ -28,7 +30,7 @@
 
         } else {
             if (window.Cordova && navigator.splashscreen) {
-                 navigator.splashscreen.hide();
+                navigator.splashscreen.hide();
             }
             $.ui.launch();
 

@@ -8,10 +8,12 @@
             readyFunction();
         }
     };
-    //$(document).ready(function () {
-    //    readyFunction();
+    if (!window.Cordova) {
+        $(document).ready(function () {
+            readyFunction();
 
-    //});
+        });
+    }
 
 
     function readyFunction(){

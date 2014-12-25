@@ -7,6 +7,8 @@
 
     chat = $.connection.chatHub;
 
+    var tryingToReconnect = false;
+
     $.initiateConnection = function () {
 
         if ($.CheckConnection()) {
@@ -14,7 +16,7 @@
             $.show('afui', false);
 
             $.show('loading', true);
-            
+
             $.connection.hub.start().done(function () {
                 var myClientId = $.connection.hub.id;
                 localStorage.setItem("ConnId", myClientId);
@@ -34,15 +36,21 @@
             $.openRooms();
         }
     };
-        
+
 
     $.JoinRoom = function (groupname, name) {
         chat.server.joinRoom(groupname, name);
     }
 
     $.leaveRoom = function (groupname, name) {
+
         var myClientId = localStorage.getItem("ConnId");
+
         chat.server.leaveRoom(groupname, name, myClientId);
+
+        if (tryingToReconnect) {
+            $.openRooms();
+        }
     }
 
 
@@ -67,8 +75,10 @@
 
         var yourname = localStorage.getItem("Name");
 
-        $.informMessage(encodedMsg, yourname,false);
-        
+        var msg = $('<li>' + encodedMsg + '</li>');
+
+        $.informMessage(msg, yourname, true);
+
         if ($('#userList #' + name).length == 0) {
             if (yourname != name)
                 $("#userList").append('<li><a href="#" class="icon chat ui-link" id="' + name + '">' + name + '</li>');
@@ -81,27 +91,29 @@
 
     $.connection.hub.reconnecting(function () {
         var msg = $('<li> Reconnecting.... </li>');
-        $.informMessage(msg, "Gapshap",true);
+        $.informMessage(msg, "Gapshap", true);
+        tryingToReconnect = true;
     });
 
     $.connection.hub.connectionSlow(function () {
         var msg = $('<li> Connection slow.... </li>');
-        $.informMessage(msg, "Gapshap",true);
+        $.informMessage(msg, "Gapshap", true);
+
     });
 
     $.connection.hub.reconnected(function () {
-
+        tryingToReconnect = false;
         var myClientId = $.connection.hub.id;
         var msg = $('<li> Reconnected.... </li>');
-        $.informMessage(msg, "Gapshap",true);
-        if (myClientId != localStorage.get("ConnId")) {
+        $.informMessage(msg, "Gapshap", true);
+        if (myClientId != localStorage.getItem("ConnId")) {
 
             var msg = $('<li> updating connection.... </li>');
 
-            $.informMessage(msg, "Gapshap",true);
+            $.informMessage(msg, "Gapshap", true);
 
             var yourname = localStorage.getItem("Name");
-            chat.server.updateConnId(localStorage.get("ConnId"), myClientId, yourname);
+            chat.server.updateConnId(localStorage.getItem("ConnId"), myClientId, yourname);
             localStorage.setItem("ConnId", myClientId);
         }
         show('afui', true);
@@ -131,7 +143,7 @@
 
                 $.JoinRoom(room, name);
 
-               
+
             });
 
         } else {
@@ -154,9 +166,9 @@
 
         var encodedMsg = $('<div />').text(message).html();
 
-        
+
         var msg = $('<li>' + encodedMsg + '</li>');
-        $.informMessage(msg, "Gapshap",false);
+        $.informMessage(msg, "Gapshap", false);
         //$("#ChatWindow").append(msg);
 
         msg.focus();
@@ -167,7 +179,7 @@
 
     };
 
-   
+
 
     $.SendGroupMessage = function (grpName, name, message) {
         chat.server.sendGroupMessage(grpName, name, message);
@@ -182,40 +194,27 @@
 
     $.leftMessage = function (message, by, left) {
 
+        if (left) {
+            return;
+        }
+
         if ($('div#' + by).length == 0) {
 
-            if (!left) {
+            var parentDiv = $.buildChatWindow(by);
 
-                var parentDiv = $.buildChatWindow(by);
-
-                $('#content').append(parentDiv);
-
-                var encodedMsg = $('<div />').text(message).html();
-
-                var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
-
-                $('div#' + by + ' .ChatWindow').append(msg);
-
-                msg.focus();
-
-                if (window.activeUser != by)
-                    $('#userList #' + by).css("background-color", "orange");
-            }
+            $('#content').append(parentDiv);
         }
-        else {
 
-            if (window.activeUser != by)
-                $('#userList #' + by).css("background-color", "orange");
+        if (window.activeUser != by)
+            $('#userList #' + by).css("background-color", "orange");
 
-            var encodedMsg = $('<div />').text(message).html();
+        var encodedMsg = $('<div />').text(message).html();
 
-            var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
+        var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
 
-            $('div#' + by + ' .ChatWindow').append(msg);
+        $('div#' + by + ' .ChatWindow').append(msg);
 
-            msg.focus();
 
-        }
     }
 
     chat.client.recievePersonalChat = function (message, by) {
@@ -237,30 +236,18 @@
 
             $('#content').append(parentDiv);
 
-            var encodedMsg = $('<div />').text(message).html();
-            var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
-            $('div#' + by + ' .ChatWindow').append(msg);
-
-            msg.focus();
-
-            if (window.activeUser != by)
-                $('#userList #' + by).parent().css("background-color", "orange");
-
         }
-        else {
 
-            if (window.activeUser != by)
-                $('#userList #' + by).parent().css("background-color", "orange");
+        if (window.activeUser != by)
+            $('#userList #' + by).parent().css("background-color", "orange");
 
-            var encodedMsg = $('<div />').text(message).html();
+        var encodedMsg = $('<div />').text(message).html();
 
-            var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+        var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
 
-            $('div#' + by + ' .ChatWindow').append(msg);
+        $('div#' + by + ' .ChatWindow').append(msg);
 
-            msg.focus();
-
-        }
+        msg.focus();
 
         if (window.background) {
             $.showNotification(by, message);
@@ -292,7 +279,7 @@
         $("#HomeMessage").val("");
     }
 
-    
+
 
 }(jQuery));
 

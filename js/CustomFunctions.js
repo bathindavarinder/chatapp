@@ -35,7 +35,7 @@
 
             var old = $("#HeadName").text();
 
-            $("#HeadName").text(username);
+            $("#HeadName").text(msg);
 
             setTimeout($("#HeadName").text(old), 5000);
         }
