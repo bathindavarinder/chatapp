@@ -116,8 +116,7 @@
             chat.server.updateConnId(localStorage.getItem("ConnId"), myClientId, yourname);
             localStorage.setItem("ConnId", myClientId);
         }
-        show('afui', true);
-        show('loading', false);
+       
     });
 
     $.connection.hub.disconnected(function () {
