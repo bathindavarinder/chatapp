@@ -110,16 +110,19 @@
     };
 
     $.connection.hub.reconnecting(function () {
-        alert("Reconnecting.......");
-        show('afui', false);
-        show('loading', true);
+        var msg = $('<li> Reconnecting.... </li>');
+        $("#ChatWindow").append(msg);
     });
 
     $.connection.hub.reconnected(function () {
 
         var myClientId = $.connection.hub.id;
-
+        var msg = $('<li> Reconnected.... </li>');
+        $("#ChatWindow").append(msg);
         if (myClientId != localStorage.get("ConnId")) {
+
+            var msg = $('<li> updating connection.... </li>');
+            $("#ChatWindow").append(msg);
             var yourname = localStorage.getItem("Name");
             chat.server.updateConnId(localStorage.get("ConnId"), myClientId, yourname);
             localStorage.setItem("ConnId", myClientId);
@@ -136,6 +139,11 @@
 
                 var myClientId = $.connection.hub.id;
 
+                if (myClientId != localStorage.get("ConnId")) {
+                    chat.server.updateConnId(localStorage.get("ConnId"), myClientId, yourname);
+                }
+                var myClientId = $.connection.hub.id;
+
                 localStorage.setItem("ConnId", myClientId);
                 //chat.server.updateName(myClientId, $('#displayname').val());
 
@@ -146,6 +154,7 @@
 
                 $.JoinRoom(room, name);
 
+               
             });
 
         } else {
