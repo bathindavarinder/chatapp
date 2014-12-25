@@ -17,8 +17,9 @@
     <script type="text/javascript" charset="utf-8" src="appframework/appframework.ui.min.js"></script>
     <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
 
+    <script type="text/javascript" src="js/CustomFunctions.js"></script>
     <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
-
+        
     <!--<script type="text/javascript" src="http://bathindavarinder-001-site1.smarterasp.net/signalR/hubs"></script>-->
     <!--<script src="signalr/hubs" type="text/javascript"></script>-->
 
@@ -30,64 +31,8 @@
     <!-- phantom library, needed for XDK "legacy" container CORS -->
     <script src="xhr.js"></script>
 
+    <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script>
-        $.ui.autoLaunch = false;
-        $.ui.backButtonText = "";
-
-        var onDeviceReady = function () {                             // called when Cordova is ready
-            if (window.Cordova && navigator.splashscreen) {
-                // Cordova API detected
-
-                if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name") != "") {
-
-                    navigator.splashscreen.hide();
-                    $("#logname").text(localStorage.getItem("Name"));
-                    $.ui.launch();
-                    $.ui.loadContent("signin", null, null, "fade");
-
-                    //window.location = "rooms.html";
-
-
-                } else {
-                    navigator.splashscreen.hide();
-                    $.ui.launch();
-
-                }
-
-                $("#register").on("click", function () {
-                    localStorage.setItem("Name", $("#name").val());
-
-                    $.ui.loadContent("main", null, null, "fade");
-
-                    setTimeout(window.location = "rooms.html", 5000);
-                });
-
-                $("#Submit").on("click", function () {
-                    localStorage.setItem("Name", $("#changenameText").val());
-
-                    $.ui.loadContent("main", null, null, "fade");
-
-                    setTimeout(window.location = "rooms.html", 5000);
-                });
-
-                $("#GoToRooms").on("click", function () {
-                    window.location = "rooms.html"
-                });
-
-            }
-        };
-        document.addEventListener("deviceready", onDeviceReady, false);
-        document.addEventListener("backbutton", function (e) {
-            navigator.app.exitApp();;
-        }, false);
-    </script>
-
-    <script>
-
-
-
-
-
         //function signUp() {
 
         //    // signup code here

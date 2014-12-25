@@ -20,9 +20,10 @@
 
     <script type="text/javascript" src="http://bathindavarinder-001-site1.smarterasp.net/signalR/hubs"></script>
     <!--<script src="signalr/hubs" type="text/javascript"></script>-->
-
-    <script type="text/javascript" charset="utf-8" src="js/signalRHub.js"></script>
     <script type="text/javascript" charset="utf-8" src="js/handlebars-v2.0.0.js"></script>
+    <script type="text/javascript" src="js/CustomFunctions.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/signalRHub.js"></script>
+    
 
 
     <!--AppFramework plugin for sliding side menu-->
@@ -37,131 +38,10 @@
     <!-- phantom library, needed for XDK "legacy" container CORS -->
     <script src="xhr.js"></script>
 
+    
+     <script type="text/javascript" charset="utf-8" src="js/room.js"></script>
     <script>
-        var onDeviceReady = function () {                             // called when Cordova is ready
-            if (window.Cordova && navigator.splashscreen) {
-
-                window.background = false;
-
-                $.initiateConnection();
-                // Cordova API detected
-                $.ui.setSideMenuWidth('210px');
-
-                $.ui.launch();
-
-                var room = localStorage.getItem("room");
-                var name = localStorage.getItem("Name");
-
-                $(".HeadName").text(room);
-
-                $('#Back').on("click", function () {
-                    $.leaveRoom(room, name);
-                });
-
-                var $body = $('body');
-                var scaleSource = $body.width();
-                $("#Send").on("click", function () {
-                    $.SendMessage();
-                });
-
-                window.activeUser = "";
-
-                $("#userList").delegate("li a", "click", function (e) {
-
-                    var username = $(this).attr("id");
-
-                    var room = localStorage.getItem("room");
-
-                    var name = localStorage.getItem("Name");
-
-                    if (username == name || username == "Back") {
-                        return;
-                    }
-
-                    if (username == "Home") {
-
-                        $.each($('.chwin'), function (name) {
-                            $(this).css("display", "none");
-                        });
-                        $("#HeadName").text(room);
-                        $('#RoomChatWindow').css("display", "block");
-                        window.activeUser = "";
-                        return;
-                    }
-
-                    if ($('div#' + username).length == 0) {
-
-                        var parentDiv = $.buildChatWindow(username);
-
-                        $('#RoomChatWindow').css("display", "none");
-
-                        $("#HeadName").text(username);
-
-                        $.each($('.chwin'), function (name) {
-                            $(this).css("display", "none");
-                        });
-                        parentDiv.html(html);
-                        window.activeUser = username;
-                        $('#content').append(parentDiv);
-
-                        $('#userList #' + username).css("background-color", "#619ef2");
-                    }
-                    else {
-
-                        $.each($('.chwin'), function (name) {
-                            $(this).css("display", "none");
-                        });
-
-                        $('#RoomChatWindow').css("display", "none");
-
-                        window.activeUser = username;
-                        $("#HeadName").text(username);
-                        $('div#' + username).css("display", "block");
-                        $('#userList #' + username).css("background-color", "#619ef2");
-                    }
-                    $.ui.toggleSideMenu();
-                });
-
-            }
-        };
-
-
-
-        document.addEventListener("deviceready", onDeviceReady, false);
-        document.addEventListener("backbutton", function (e) {
-            var name = localStorage.getItem("Name");
-            var room = localStorage.getItem("room");
-            $.leaveRoom(room, name);
-
-            //  navigator.app.backHistory()
-        }, false);
-
-        document.addEventListener("pause", pauseapp, false);
-        function pauseapp() {
-            window.background = true;
-        }
-
-        function resumeapp() {
-            window.background = false;
-        }
-
-        document.addEventListener("resume", resumeapp, false);
-
-    </script>
-
-    <script>
-        $.ui.autoLaunch = false;
-        $.ui.animateHeaders = false;
-
-
-
-        $(document).unload(function () {
-
-            var name = localStorage.getItem("Name");
-            var room = localStorage.getItem("room");
-            $.leaveRoom(room, name);
-
-        });
+        
     </script>
 
     <link rel="stylesheet" type="text/css" href="css/custom.css" />

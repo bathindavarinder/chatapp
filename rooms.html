@@ -30,37 +30,8 @@
     <!-- phantom library, needed for Cordova api calls -->
     <script src="cordova.js"></script>
    
-    <script>
-        $.ui.autoLaunch = false;
-        $.ui.backButtonText = "Back";
-
-        var onDeviceReady = function () {                           
-            if (window.Cordova && navigator.splashscreen) {      
-                $.ui.launch();
-                $("li a").on("click", function () {
-
-                    var room = $(this).attr("id");
-                    localStorage.setItem("room", room);
-                    window.location = "room.html";
-
-                }); 
-             
-            }
-        };
-        document.addEventListener("deviceready", onDeviceReady, false);
-        document.addEventListener("backbutton", function (e) {
-            window.location = "index.html";
-        },false);
-    </script>
-
-    <script>
+   <script type="text/javascript" charset="utf-8" src="js/rooms.js"></script>
     
-
-        $(document).ready(function () {
-        
-        });
-
-    </script>
 </head>
 <body>
     <div id="afui">
