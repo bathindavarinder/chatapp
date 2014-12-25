@@ -29,19 +29,19 @@
 
   <platform name="android">
     <!-- you can use any density that exists in the Android project -->
-    <splash src="res/screen/android/res-long-land-hdpi/default.png" density="land-hdpi"/>
-    <splash src="res/screen/android/res-long-land-ldpi/default.png" density="land-ldpi"/>
-    <splash src="res/screen/android/res-long-land-mdpi/default.png" density="land-mdpi"/>
-    <splash src="res/screen/android/res-long-land-xhdpi/default.png" density="land-xhdpi"/>
-    <splash src="res/screen/android/res-long-land-xxhdpi/default.png" density="land-xxhdpi"/>
-    <splash src="res/screen/android/res-long-land-xxxhdpi/default.png" density="land-xxxhdpi"/>
+    <splash src="res/screen/android/res-long-land-hdpi/default.png" density="land-hdpi"  gap:platform="android" gap:qualifier="hdpi" />
+    <splash src="res/screen/android/res-long-land-ldpi/default.png" density="land-ldpi"  gap:platform="android" gap:qualifier="ldpi" />
+    <splash src="res/screen/android/res-long-land-mdpi/default.png" density="land-mdpi"  gap:platform="android" gap:qualifier="mdpi" />
+    <splash src="res/screen/android/res-long-land-xhdpi/default.png" density="land-xhdpi"  gap:platform="android" gap:qualifier="xhdpi" />
+    <splash src="res/screen/android/res-long-land-xxhdpi/default.png" density="land-xxhdpi"  gap:platform="android" gap:qualifier="xxhdpi" />
+    <splash src="res/screen/android/res-long-land-xxxhdpi/default.png" density="land-xxxhdpi"  gap:platform="android" gap:qualifier="xxxhdpi" />
 
-    <splash src="res/screen/android/res-long-port-hdpi/default.png" density="port-hdpi"/>
-    <splash src="res/screen/android/res-long-port-ldpi/default.png" density="port-ldpi"/>
-    <splash src="res/screen/android/res-long-port-mdpi/default.png" density="port-mdpi"/>
-    <splash src="res/screen/android/res-long-port-xhdpi/default.png" density="port-xhdpi"/>
-    <splash src="res/screen/android/res-long-port-xxhdpi/default.png" density="port-xxhdpi"/>
-    <splash src="res/screen/android/res-long-port-xxxhdpi/default.png" density="port-xxxhdpi"/>
+    <splash src="res/screen/android/res-long-port-hdpi/default.png" density="port-hdpi"  gap:platform="android" gap:qualifier="hdpi" />
+    <splash src="res/screen/android/res-long-port-ldpi/default.png" density="port-ldpi"  gap:platform="android" gap:qualifier="ldpi" />
+    <splash src="res/screen/android/res-long-port-mdpi/default.png" density="port-mdpi"  gap:platform="android" gap:qualifier="mdpi" />
+    <splash src="res/screen/android/res-long-port-xhdpi/default.png" density="port-xhdpi"  gap:platform="android" gap:qualifier="xhdpi" />
+    <splash src="res/screen/android/res-long-port-xxhdpi/default.png" density="port-xxhdpi"  gap:platform="android" gap:qualifier="xxhdpi" />
+    <splash src="res/screen/android/res-long-port-xxxhdpi/default.png" density="port-xxxhdpi"  gap:platform="android" gap:qualifier="xxxhdpi" />
   </platform>
 
   <platform name="ios">
