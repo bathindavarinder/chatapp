@@ -361,6 +361,7 @@
 
 
     $.SendMessage = function () {
+        var name = localStorage.getItem("Name");
         var Message = $("#HomeMessage").val();
 
         if (Message == "") {
