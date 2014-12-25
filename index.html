@@ -38,8 +38,6 @@
             if (window.Cordova && navigator.splashscreen) {
                 // Cordova API detected
 
-              
-
                 if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name") != "") {
 
                     navigator.splashscreen.hide();
@@ -53,7 +51,7 @@
                 } else {
                     navigator.splashscreen.hide();
                     $.ui.launch();
-                    
+
                 }
 
                 $("#register").on("click", function () {
@@ -85,7 +83,7 @@
     </script>
 
     <script>
- 
+
 
 
 
@@ -151,8 +149,17 @@
             </div>
 
             <div class="panel" title="Login in" id="signin" data-footer="none">
-                Currently logged in with name :
-                <p id="logname"></p>
+                <div style="text-align: center">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    Currently logged in with name :<p id="logname"></p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
                 <ul class="list inset">
                     <li><a href="#changename" class="icon pencil" style="text-align: center">Change Name</a></li>
                     <li><a href="#" id="GoToRooms" class="icon pencil" style="text-align: center">Go To Rooms</a></li>
