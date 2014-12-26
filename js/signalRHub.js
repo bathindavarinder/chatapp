@@ -195,15 +195,21 @@
 
     $.Message = function (message, by, left) {
 
-        if (left) {
-            return;
-        }
+        var divExist = true;
 
         if ($('div#' + by).length == 0) {
 
-            var parentDiv = $.buildChatWindow(by);
+            divExist = false;
 
-            $('#content').append(parentDiv);
+            if (!left) {
+                var parentDiv = $.buildChatWindow(by);
+
+                $('#content').append(parentDiv);
+            }
+        }
+
+        if (left && !divExist) {
+            return;
         }
 
         if (window.activeUser != by)
@@ -213,8 +219,7 @@
 
         var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
 
-        $('div#' + by + ' .ChatWindow').append(msg);
-
+        $('div#' + by + ' .ChatWindow').append(msg); 
 
     }
     // Personal Message from some one.
