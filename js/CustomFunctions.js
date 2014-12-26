@@ -69,21 +69,21 @@
         if ($('div#' + username).length == 0) {
 
             var parentDiv = $.buildChatWindow(username);
-            $('#content').append(parentDiv); 
+            $('#content').append(parentDiv);
         }
-       
 
-            $.each($('.chwin'), function (name) {
-                $(this).css("display", "none");
-            });
 
-            $('#RoomChatWindow').css("display", "none");
+        $.each($('.chwin'), function (name) {
+            $(this).css("display", "none");
+        });
 
-            window.activeUser = username;
-            $("#HeadName").text(username);
-            $('div#' + username).css("display", "block");
-            $('#userList #' + username).parent().css("background-color", "#619ef2");
-      
+        $('#RoomChatWindow').css("display", "none");
+
+        window.activeUser = username;
+        $("#HeadName").text(username);
+        $('div#' + username).css("display", "block");
+        $('#userList #' + username).parent().css("background-color", "#619ef2");
+
         $.ui.toggleSideMenu();
     }
 
@@ -100,7 +100,7 @@
                    navigator.network.connection.type === "unknown") ? false : true);
         }
         else {
-          return true;
+            return true;
         }
     }
 
