@@ -15,14 +15,12 @@
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/jq.appframework.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/appframework.ui.min.js"></script>
-    <!-- <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>-->
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
+    <script type="text/javascript" src="js/CustomFunctions.js"></script>
     <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
 
-    <!--<script type="text/javascript" src="http://bathindavarinder-001-site1.smarterasp.net/signalR/hubs"></script>-->
-    <!--<script src="signalr/hubs" type="text/javascript"></script>-->
-
-    <!--<script type="text/javascript" charset="utf-8" src="js/signalRHub.js"></script>-->
+  
     <!-- phantom library, needed for XDK "legacy" container api calls -->
     <script src="intelxdk.js"></script>
     <!-- phantom library, needed for Cordova api calls -->
@@ -30,64 +28,8 @@
     <!-- phantom library, needed for XDK "legacy" container CORS -->
     <script src="xhr.js"></script>
 
+    <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script>
-        $.ui.autoLaunch = false;
-        $.ui.backButtonText = "";
-
-        var onDeviceReady = function () {                             // called when Cordova is ready
-            if (window.Cordova && navigator.splashscreen) {
-                // Cordova API detected
-
-              
-
-                if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name") != "") {
-
-                    $("#logname").text(localStorage.getItem("Name"));
-                    $.ui.launch();
-                    $.ui.loadContent("signin", null, null, "fade");
-
-                    //window.location = "rooms.html";
-
-
-                } else {
-                    $.ui.launch();
-                    navigator.splashscreen.hide();
-                }
-
-                $("#register").on("click", function () {
-                    localStorage.setItem("Name", $("#name").val());
-
-                    $.ui.loadContent("main", null, null, "fade");
-
-                    setTimeout(window.location = "rooms.html", 5000);
-                });
-
-                $("#Submit").on("click", function () {
-                    localStorage.setItem("Name", $("#changenameText").val());
-
-                    $.ui.loadContent("main", null, null, "fade");
-
-                    setTimeout(window.location = "rooms.html", 5000);
-                });
-
-                $("#GoToRooms").on("click", function () {
-                    window.location = "rooms.html"
-                });
-
-            }
-        };
-        document.addEventListener("deviceready", onDeviceReady, false);
-        document.addEventListener("backbutton", function (e) {
-            navigator.app.exitApp();;
-        }, false);
-    </script>
-
-    <script>
- 
-
-
-
-
         //function signUp() {
 
         //    // signup code here
@@ -149,8 +91,17 @@
             </div>
 
             <div class="panel" title="Login in" id="signin" data-footer="none">
-                Currently logged in with name :
-                <p id="logname"></p>
+                <div style="text-align: center">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    Currently logged in with name :<p id="logname"></p>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                </div>
                 <ul class="list inset">
                     <li><a href="#changename" class="icon pencil" style="text-align: center">Change Name</a></li>
                     <li><a href="#" id="GoToRooms" class="icon pencil" style="text-align: center">Go To Rooms</a></li>
