@@ -35,11 +35,13 @@
             var room = localStorage.getItem("room");
 
             var sum = 0;
-
+            var indi = 0;
             $("#MainComments .ChatWindow li").each(function () {
                 sum += $(this).height();
+                if (indi == 0)
+                    indi = sum;
             });
-            var windowheight = $("#MainComments").parent().height();
+            var windowheight = $("#MainComments").parent().height() - (indi*5);
 
             if (windowheight < sum) {
                 window.scroller[room].scrollToBottom(2);
@@ -144,11 +146,14 @@
     $.scrollOnMessage = function (by) {
 
         var sum = 0;
+        var indi = 0;
         $("#" + by + " .ChatWindow li").each(function () {
             sum += $(this).height();
+            if (indi == 0)
+                indi = sum;
         });
 
-        var windowheight = $("div#" + by).parent().height();
+        var windowheight = $("div#" + by).parent().height() - (indi*5);
 
         if (windowheight < sum) {
             window.scroller[by].scrollToBottom(2);
