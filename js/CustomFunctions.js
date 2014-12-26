@@ -46,16 +46,9 @@
             }
         }
         else {
-            var sum = 0;
-            $("#" + window.activeUser + " .ChatWindow li").each(function () {
-                sum += $(this).height();
-            });
 
-            var windowheight = $("div#" + window.activeUser + "").parent().height();
-
-            if (windowheight < sum) {
-                window.scroller[window.activeUser].scrollToBottom(2);
-            }
+            $.scrollOnMessage(window.activeUser);
+           
         }
 
         if (addToHeader) {
@@ -147,5 +140,21 @@
     $.openRooms = function () {
         window.location = "rooms.html";
     }
+
+    $.scrollOnMessage = function (by) {
+
+        var sum = 0;
+        $("#" + by + " .ChatWindow li").each(function () {
+            sum += $(this).height();
+        });
+
+        var windowheight = $("div#" + by).parent().height();
+
+        if (windowheight < sum) {
+            window.scroller[by].scrollToBottom(2);
+        }
+
+    }
+
 
 }(jQuery));
