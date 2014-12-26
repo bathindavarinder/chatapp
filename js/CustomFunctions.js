@@ -39,18 +39,19 @@
             $("#MainComments .ChatWindow li").each(function () {
                 sum += $(this).height();
             });
-            var windowheight = $("#MainComments .ChatWindow").height();
+            var windowheight = $("#MainComments").parent().height();
 
             if (windowheight < sum) {
                 window.scroller[room].scrollToBottom(2);
             }
         }
         else {
+            var sum = 0;
             $("#" + window.activeUser + " .ChatWindow li").each(function () {
                 sum += $(this).height();
             });
 
-            var windowheight = $("#" + window.activeUser + " .ChatWindow").height();
+            var windowheight = $("div#" + window.activeUser + "").parent().height();
 
             if (windowheight < sum) {
                 window.scroller[window.activeUser].scrollToBottom(2);
