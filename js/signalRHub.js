@@ -3,19 +3,25 @@
 
     var chat = undefined;
 
+    //$.initiateConnection = function () {
+    //    $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
+
+    //    // Grab the hub by name, the same name as specified on the server
+    //    chat = $.connection.chatHub;
+    //};
+
+    //  show('afui', false);
+
+
     $.connection.hub.url = "http://bathindavarinder-001-site1.smarterasp.net/signalr";
-
     chat = $.connection.chatHub;
-
-    var tryingToReconnect = false;
-
     $.initiateConnection = function () {
 
-        if ($.CheckConnection()) {
+        if (CheckConnection()) {
+            show('afui', false);
+            show('loading', true);
+            // Grab the hub by name, the same name as specified on the server
 
-            $.show('afui', false);
-
-            $.show('loading', true);
 
             $.connection.hub.start().done(function () {
                 var myClientId = $.connection.hub.id;
@@ -26,34 +32,46 @@
 
 
                 $.JoinRoom(room, name);
-                $.show('afui', true);
-                $.show('loading', false);
+                show('afui', true);
+                show('loading', false);
             });
-
         } else {
-
             alert("please check your network.");
             $.openRooms();
         }
     };
 
+    function CheckConnection() {
+
+        if (!navigator.network) {
+            // set the parent windows navigator network object to the child window
+            navigator.network = window.top.navigator.network;
+        }
+
+        // return the type of connection found
+        return ((navigator.network.connection.type === "none" || navigator.network.connection.type === null ||
+               navigator.network.connection.type === "unknown") ? false : true);
+    }
+
+    function show(id, value) {
+        document.getElementById(id).style.display = value ? 'block' : 'none';
+    }
+
+    $.openRooms = function () {
+        window.location = "rooms.html";
+
+    }
 
     $.JoinRoom = function (groupname, name) {
         chat.server.joinRoom(groupname, name);
     }
 
     $.leaveRoom = function (groupname, name) {
-
         var myClientId = localStorage.getItem("ConnId");
-
         chat.server.leaveRoom(groupname, name, myClientId);
-
-        if (tryingToReconnect) {
-            $.openRooms();
-        }
     }
 
-
+  
     chat.client.updateMembers = function (names) {
 
         var users = names.split(",");
@@ -72,107 +90,58 @@
     chat.client.confirmJoin = function (name) {
 
         var encodedMsg = $('<div />').text(name + " Joined").html();
-
         var yourname = localStorage.getItem("Name");
-
+        if (window.background) {
+            $.showNotification(name, encodedMsg);
+        }
         var msg = $('<li>' + encodedMsg + '</li>');
+        $("#ChatWindow").append(msg);
+        msg.focus();
 
-        $.informMessage(msg, yourname, true);
-
+     
         if ($('#userList #' + name).length == 0) {
             if (yourname != name)
                 $("#userList").append('<li><a href="#" class="icon chat ui-link" id="' + name + '">' + name + '</li>');
         }
     };
 
-    chat.client.leftRoom = function (name) {
-        $('#userList #' + name).parent().remove();
-        $.Message(name + " Left.", name, true);
-    };
-
     chat.client.confirmLeft = function () {
         $.openRooms();
     };
 
-    $.connection.hub.reconnecting(function () {
-        var msg = $('<li> Reconnecting.... </li>');
-        $.informMessage(msg, "Gapshap", true);
-        tryingToReconnect = true;
-    });
-
-    $.connection.hub.connectionSlow(function () {
-        var msg = $('<li> Connection slow.... </li>');
-        $.informMessage(msg, "Gapshap", true);
-
-    });
-
-    $.connection.hub.reconnected(function () {
-        tryingToReconnect = false;
-        var myClientId = $.connection.hub.id;
-        var msg = $('<li> Reconnected.... </li>');
-        $.informMessage(msg, "Gapshap", true);
-        if (myClientId != localStorage.getItem("ConnId")) {
-
-            var msg = $('<li> updating connection.... </li>');
-
-            $.informMessage(msg, "Gapshap", true);
-
-            var yourname = localStorage.getItem("Name");
-            chat.server.updateConnId(localStorage.getItem("ConnId"), myClientId, yourname);
-            localStorage.setItem("ConnId", myClientId);
-        }
-       
-    });
-
     $.connection.hub.disconnected(function () {
 
-        if (!window.background) {
-
+        setTimeout(function () {
             $.connection.hub.start().done(function () {
-
                 var myClientId = $.connection.hub.id;
-
-                if (myClientId != localStorage.getItem("ConnId")) {
-                    chat.server.updateConnId(localStorage.getItem("ConnId"), myClientId, yourname);
-                }
-                var myClientId = $.connection.hub.id;
-
                 localStorage.setItem("ConnId", myClientId);
                 //chat.server.updateName(myClientId, $('#displayname').val());
-
                 var name = localStorage.getItem("Name");
-
                 var room = localStorage.getItem("room");
 
 
                 $.JoinRoom(room, name);
-
-
+                show('afui', true);
+                show('loading', false);
             });
-
-        } else {
-            $.showNotification("Timeout", "You have been pulled out of room because of no activity");
-            $.openRooms();
-        }
+        }, 5000);
 
     });
 
-    
+    chat.client.leftRoom = function (name) {
+        $('#userList #' + name).parent().remove();
+        $.leftMessage(name + " Left.", name,true);
+    };
 
     chat.client.addChatMessage = function (message) {
-
         var n = message.indexOf(":");
-
         var name = message.substring(0, n);
-
         var encodedMsg = $('<div />').text(message).html();
 
-
         var msg = $('<li>' + encodedMsg + '</li>');
-        $.informMessage(msg, "Gapshap", false);
-        //$("#ChatWindow").append(msg);
-
+        $("#ChatWindow").append(msg);
         msg.focus();
+        
 
         if (window.background) {
             $.showNotification(name, encodedMsg);
@@ -180,107 +149,104 @@
 
     };
 
-
+    $.showNotification = function (title, msg) {
+        window.plugin.notification.local.add({ message: msg, title: title, autoCancel: true })
+    }
 
     $.SendGroupMessage = function (grpName, name, message) {
         chat.server.sendGroupMessage(grpName, name, message);
     }
 
     document.addEventListener("offline", onOffline, false);
-
     function onOffline() {
         alert("please check your network.")
         $.openRooms();
     }
 
-    $.Message = function (message, by, left) {
-
-        if (left) {
-            return;
-        }
-
+    $.leftMessage = function (message, by,left) {
         if ($('div#' + by).length == 0) {
 
-            var parentDiv = $.buildChatWindow(by);
+            if (!left) {
+                var source = $("#personal-template").html();
+                var template = Handlebars.compile(source);
+                var context = { name: by }
+                var html = template(context);
+                var parentDiv = $("<div  class='panel chwin' style='display:none;height: 85%;position:static' id='" + by + "'></div>");
 
-            $('#content').append(parentDiv);
+                parentDiv.html(html);
+
+                $('#content').append(parentDiv);
+
+                var encodedMsg = $('<div />').text(message).html();
+                var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
+                $('div#' + by + ' .ChatWindow').append(msg);
+                msg.focus();
+                if (window.activeUser != by)
+                    $('#userList #' + by).css("background-color", "orange");
+            }
         }
+        else {
+            if (window.activeUser != by)
+                $('#userList #' + by).css("background-color", "orange");
 
-        if (window.activeUser != by)
-            $('#userList #' + by).parent().css("background-color", "orange");
+            var encodedMsg = $('<div />').text(message).html();
+            var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
+            $('div#' + by + ' .ChatWindow').append(msg);
+            msg.focus();
 
-        var encodedMsg = $('<div />').text(message).html();
-
-        var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
-
-        $('div#' + by + ' .ChatWindow').append(msg);
-
-
+        }
     }
-    // Personal Message from some one.
+
     chat.client.recievePersonalChat = function (message, by) {
 
-        $.Message(message, by, false);
-        if (window.background) {
-            $.showNotification(by, message);
-        }
+        $.leftMessage(message, by,false);
     }
 
 
-     // Add msg sent by me to personal chat window 
     chat.client.byPersonalChat = function (message, by) {
 
         var yourname = localStorage.getItem("Name");
 
         if ($('div#' + by).length == 0) {
 
-            var parentDiv = $.buildChatWindow(by);
+            var source = $("#personal-template").html();
+            var template = Handlebars.compile(source);
+            var context = { name: by }
+            var html = template(context);
+            var parentDiv = $("<div  class='panel chwin' style='display:none;height: 85%;position:static' id='" + by + "'></div>");
+
+            parentDiv.html(html);
 
             $('#content').append(parentDiv);
 
+            var encodedMsg = $('<div />').text(message).html();
+            var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+            $('div#' + by + ' .ChatWindow').append(msg);
+          
+            msg.focus();
+
+            if (window.activeUser != by)
+                $('#userList #' + by).css("background-color", "orange");
         }
+        else {
+            if (window.activeUser != by)
+                $('#userList #' + by).css("background-color", "orange");
 
-        if (window.activeUser != by)
-            $('#userList #' + by).parent().css("background-color", "orange");
+            var encodedMsg = $('<div />').text(message).html();
 
-        var encodedMsg = $('<div />').text(message).html();
+            var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
 
-        var msg = $('<li>' + yourname + ' : ' + encodedMsg + '</li>');
+            $('div#' + by + ' .ChatWindow').append(msg);
 
-        $('div#' + by + ' .ChatWindow').append(msg);
+            msg.focus();
 
-        msg.focus();
-
-        if (window.background) {
-            $.showNotification(by, message);
         }
     }
 
-
-    // Send personal message
     $.SendPersonalMessage = function (name, message, by) {
         chat.server.sendPersonalMessage(name, message, by);
-    } 
-
-
-    // Send group message
-    $.SendMessage = function () {
-        var name = localStorage.getItem("Name");
-        var Message = $("#HomeMessage").val();
-
-        if (Message == "") {
-            return;
-        }
-
-        var room = localStorage.getItem("room");
-        if (window.activeUser == "") {
-            $.SendGroupMessage(room, name, Message);
-        } else {
-            $.SendPersonalMessage(window.activeUser, Message, name);
-        }
-
-        $("#HomeMessage").val("");
     }
+
 
 
 
