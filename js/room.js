@@ -48,6 +48,10 @@
                 $.userClick(username);                
             });
 
+            $(".MainComments").scroller({
+                vScrollCSS: 'custom_scrollbar',
+                lockBounce: true
+            });
         }
   
 

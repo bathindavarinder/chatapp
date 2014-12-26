@@ -67,6 +67,7 @@
             $("#HeadName").text(room);
             $('#RoomChatWindow').css("display", "block");
             window.activeUser = "";
+            $.ui.toggleSideMenu();
             return;
         }
 
