@@ -77,7 +77,7 @@
 
         var msg = $('<li>' + encodedMsg + '</li>');
 
-        $.informMessage(encodedMsg, yourname, false);
+        $.informMessage(msg, yourname, false);
 
         if ($('#userList #' + name).length == 0) {
             if (yourname != name)
