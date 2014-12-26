@@ -48,7 +48,7 @@
                 $.userClick(username);                
             });
 
-            $(".MainComments").scroller({ 
+            window.scroller[room] = $(".MainComments").scroller({
                 lockBounce: false
             });
         }

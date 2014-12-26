@@ -5,7 +5,7 @@
         window.plugin.notification.local.add({ message: msg, title: title, autoCancel: true })
     }
 
-
+    window.scroller = [];
     $.buildChatWindow = function (id) {
 
         var source = $("#personal-template").html();
@@ -30,8 +30,32 @@
         }
 
         $("#ChatWindow").append(msg);
-        $(".MainComments").scrollToBottom(1);
 
+        if (window.activeUser == "") {
+            var room = localStorage.getItem("room");
+
+            var sum = 0;
+
+            $("#MainComments .ChatWindow li").each(function () {
+                sum += $(this).height();
+            });
+            var windowheight = $("#MainComments .ChatWindow").height();
+
+            if (windowheight < sum) {
+                window.scroller[room].scrollToBottom(2);
+            }
+        }
+        else {
+            $("#" + window.activeUser + " .ChatWindow li").each(function () {
+                sum += $(this).height();
+            });
+
+            var windowheight = $("#" + window.activeUser + " .ChatWindow").height();
+
+            if (windowheight < sum) {
+                window.scroller[window.activeUser].scrollToBottom(2);
+            }
+        }
 
         if (addToHeader) {
 
@@ -77,6 +101,10 @@
 
             var parentDiv = $.buildChatWindow(username);
             $('#content').append(parentDiv);
+
+            window.scroller[username] = $("#" + username + " .MainComments").scroller({
+                lockBounce: false
+            });
         }
 
 
