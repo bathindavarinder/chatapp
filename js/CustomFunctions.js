@@ -37,7 +37,11 @@
 
             $("#HeadName").text(msg);
 
-            setTimeout($("#HeadName").text(old), 5000);
+            setTimeout(function () {
+                // Do something after 5 seconds
+                $("#HeadName").text(old)
+            }, 5000);
+
         }
     };
 
