@@ -170,10 +170,7 @@
 
         var msg = $('<li>' + encodedMsg + '</li>');
         $.informMessage(msg, "Gapshap", false);
-        //$("#ChatWindow").append(msg);
-
-        msg.focus();
-
+        
         if (window.background) {
             $.showNotification(name, encodedMsg);
         }

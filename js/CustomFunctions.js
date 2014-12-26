@@ -30,6 +30,8 @@
         }
 
         $("#ChatWindow").append(msg);
+        $(".MainComments").scrollToBottom(1);
+
 
         if (addToHeader) {
 
