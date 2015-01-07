@@ -41,7 +41,7 @@
                 if (indi == 0)
                     indi = sum;
             });
-            var windowheight = $("#MainComments").parent().height() - (indi*5);
+            var windowheight = $("#MainComments").parent().height() - (indi*3);
 
             if (windowheight < sum) {
                 window.scroller[room].scrollToBottom(2);
