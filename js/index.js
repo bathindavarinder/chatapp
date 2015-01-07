@@ -1,19 +1,24 @@
-﻿
-
 (function ($) {
 
+alert("index loaded");
     $.ui.autoLaunch = false;
     $.ui.backButtonText = "";
-
-    var onDeviceReady = function () {                             // called when Cordova is ready
+  
+    var onDeviceReady = function () {
+        alert("readu fired");
+        // called when Cordova is ready
         if (window.Cordova && navigator.splashscreen) {
+
             readyFunction();
+        }
+        else {
+            alert("readu not fired");
         }
     }
     if (!window.Cordova) {
         $(document).ready(function () {
-            readyFunction();
-
+            alert("read docu fired");
+            readyFunction(); 
         });
     }
 
@@ -35,8 +40,9 @@
             $.ui.launch();
 
         }
-
+        alert("registerd");
         $("#register").on("click", function () {
+            alert("registered called");
             localStorage.setItem("Name", $("#name").val());
 
             $.ui.loadContent("main", null, null, "fade");
