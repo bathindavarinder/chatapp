@@ -77,7 +77,7 @@
 
         var msg = $('<li>' + encodedMsg + '</li>');
 
-        $.informMessage(msg, yourname, false);
+        $.informMessage(msg, yourname, true);
 
         if ($('#userList #' + name).length == 0) {
             if (yourname != name)
@@ -96,13 +96,13 @@
 
     $.connection.hub.reconnecting(function () {
         var msg = $('<li> Reconnecting.... </li>');
-        $.informMessage("Reconnecting....", "Gapshap", true);
+        $.informMessage(msg, "Gapshap", true);
         tryingToReconnect = true;
     });
 
     $.connection.hub.connectionSlow(function () {
         var msg = $('<li> Connection slow.... </li>');
-        $.informMessage(" Connection slow....", "Gapshap", true);
+        $.informMessage(msg, "Gapshap", true);
 
     });
 
@@ -110,12 +110,12 @@
         tryingToReconnect = false;
         var myClientId = $.connection.hub.id;
         var msg = $('<li> Reconnected.... </li>');
-        $.informMessage(" Reconnected.... ", "Gapshap", true);
+        $.informMessage(msg, "Gapshap", true);
         if (myClientId != localStorage.getItem("ConnId")) {
 
             var msg = $('<li> updating connection.... </li>');
 
-            $.informMessage("updating connection....", "Gapshap", true);
+            $.informMessage(msg, "Gapshap", true);
 
             var yourname = localStorage.getItem("Name");
             chat.server.updateConnId(localStorage.getItem("ConnId"), myClientId, yourname);
@@ -137,7 +137,8 @@
                 }
                 var myClientId = $.connection.hub.id;
 
-                localStorage.setItem("ConnId", myClientId); 
+                localStorage.setItem("ConnId", myClientId);
+                //chat.server.updateName(myClientId, $('#displayname').val());
 
                 var name = localStorage.getItem("Name");
 
@@ -169,7 +170,10 @@
 
         var msg = $('<li>' + encodedMsg + '</li>');
         $.informMessage(msg, "Gapshap", false);
-        
+        //$("#ChatWindow").append(msg);
+
+        msg.focus();
+
         if (window.background) {
             $.showNotification(name, encodedMsg);
         }
@@ -191,21 +195,15 @@
 
     $.Message = function (message, by, left) {
 
-        var divExist = true;
+        if (left) {
+            return;
+        }
 
         if ($('div#' + by).length == 0) {
 
-            divExist = false;
+            var parentDiv = $.buildChatWindow(by);
 
-            if (!left) {
-                var parentDiv = $.buildChatWindow(by);
-
-                $('#content').append(parentDiv);
-            }
-        }
-
-        if (left && !divExist) {
-            return;
+            $('#content').append(parentDiv);
         }
 
         if (window.activeUser != by)
@@ -215,7 +213,8 @@
 
         var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
 
-        $('div#' + by + ' .ChatWindow').append(msg); 
+        $('div#' + by + ' .ChatWindow').append(msg);
+
 
     }
     // Personal Message from some one.

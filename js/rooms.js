@@ -26,10 +26,6 @@
                 window.location = "room.html";
 
             });
-
-            $("#backButton").on("click", function () {
-                window.location = "index.html#signin";
-            });
     };
     document.addEventListener("deviceready", onDeviceReady, false);
     document.addEventListener("backbutton", function (e) {

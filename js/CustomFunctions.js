@@ -5,7 +5,7 @@
         window.plugin.notification.local.add({ message: msg, title: title, autoCancel: true })
     }
 
-    window.scroller = [];
+
     $.buildChatWindow = function (id) {
 
         var source = $("#personal-template").html();
@@ -30,24 +30,6 @@
         }
 
         $("#ChatWindow").append(msg);
-      
-        if (window.activeUser == "") {
-            var room = localStorage.getItem("room");
-
-            var sum = 0;
-          
-            $("#MainComments .ChatWindow li").each(function () {
-                sum += $(this).height();
-            });
-            var windowheight = $("#MainComments .ChatWindow").height();
-
-           if (windowheight < sum) {
-               window.scroller[room].scrollToBottom(2);
-           }
-        }
-        else {
-            window.scroller[window.activeUser].scrollToBottom(2);
-        }
 
         if (addToHeader) {
 
@@ -55,11 +37,7 @@
 
             $("#HeadName").text(msg);
 
-            setTimeout(function () {
-                // Do something after 5 seconds
-                $("#HeadName").text(old)
-            }, 5000);
-
+            setTimeout($("#HeadName").text(old), 5000);
         }
     };
 
@@ -85,32 +63,27 @@
             $("#HeadName").text(room);
             $('#RoomChatWindow').css("display", "block");
             window.activeUser = "";
-            $.ui.toggleSideMenu();
             return;
         }
 
         if ($('div#' + username).length == 0) {
 
             var parentDiv = $.buildChatWindow(username);
-            $('#content').append(parentDiv);
-
-            window.scroller[username] = $("#" + username + " .MainComments").scroller({
-                lockBounce: false
-            });
+            $('#content').append(parentDiv); 
         }
+       
 
+            $.each($('.chwin'), function (name) {
+                $(this).css("display", "none");
+            });
 
-        $.each($('.chwin'), function (name) {
-            $(this).css("display", "none");
-        });
+            $('#RoomChatWindow').css("display", "none");
 
-        $('#RoomChatWindow').css("display", "none");
-
-        window.activeUser = username;
-        $("#HeadName").text(username);
-        $('div#' + username).css("display", "block");
-        $('#userList #' + username).parent().css("background-color", "#619ef2");
-
+            window.activeUser = username;
+            $("#HeadName").text(username);
+            $('div#' + username).css("display", "block");
+            $('#userList #' + username).parent().css("background-color", "#619ef2");
+      
         $.ui.toggleSideMenu();
     }
 
@@ -127,7 +100,7 @@
                    navigator.network.connection.type === "unknown") ? false : true);
         }
         else {
-            return true;
+          return true;
         }
     }
 

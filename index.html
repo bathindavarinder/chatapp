@@ -10,96 +10,43 @@
     <link rel="stylesheet" type="text/css" href="appframework/af.ui.css" />
     <link rel="stylesheet" type="text/css" href="appframework/icons.css" />
 
-    <script src="js/jquery-1.11.1.min.js"></script>
-    <script src="js/jquery.mobile-1.4.5.min.js"></script>
 
-    <script src="cordova.js"></script>
+
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/jq.appframework.js"></script>
     <script type="text/javascript" charset="utf-8" src="appframework/appframework.ui.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
     <script type="text/javascript" src="js/CustomFunctions.js"></script>
+    <script type="text/javascript" src="js/jquery.signalR-2.1.2.js"></script>
 
+  
+    <!-- phantom library, needed for XDK "legacy" container api calls -->
+    <script src="intelxdk.js"></script>
+    <!-- phantom library, needed for Cordova api calls -->
+    <script src="cordova.js"></script>
+    <!-- phantom library, needed for XDK "legacy" container CORS -->
+    <script src="xhr.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="js/index.js"></script>
     <script>
-        alert("index loaded out");
+        //function signUp() {
 
+        //    // signup code here
 
-        alert("index loaded");
-        $.ui.autoLaunch = false;
-        $.ui.backButtonText = "";
+        //    $.ui.loadContent("main", null, null, "fade");
 
+        //    setTimeout(window.location = "rooms.html", 5000);
+        //}
 
-        document.addEventListener("deviceready", onDeviceReady, false);
-        document.addEventListener("backbutton", function (e) {
-            navigator.app.exitApp();;
-        }, false);
+        //function startApp() {
+        //    // clears all back button history
+        //    $.ui.clearHistory();
 
-        var onDeviceReady = function () {
-            alert("readu fired");
-            // called when Cordova is ready
-            if (window.Cordova && navigator.splashscreen) {
-
-                readyFunction();
-            }
-            else {
-                alert("readu not fired");
-            }
-        }
-        if (!window.Cordova) {
-            $(document).ready(function () {
-                alert("read docu fired");
-                readyFunction();
-            });
-        }
-
-
-        function readyFunction() {
-            if (localStorage.getItem("Name") != undefined && localStorage.getItem("Name") != "") {
-
-                if (window.Cordova && navigator.splashscreen) {
-                    navigator.splashscreen.hide();
-                }
-                $("#logname").text(localStorage.getItem("Name"));
-                $.ui.launch();
-                $.ui.loadContent("signin", null, null, "fade");
-
-            } else {
-                if (window.Cordova && navigator.splashscreen) {
-                    navigator.splashscreen.hide();
-                }
-                $.ui.launch();
-
-            }
-            alert("registerd");
-            $("#register").on("click", function () {
-                alert("registered called");
-                localStorage.setItem("Name", $("#name").val());
-
-                $.ui.loadContent("main", null, null, "fade");
-
-                setTimeout(window.location = "rooms.html", 5000);
-            });
-
-            $("#Submit").on("click", function () {
-                localStorage.setItem("Name", $("#changenameText").val());
-
-                $.ui.loadContent("main", null, null, "fade");
-
-                setTimeout(window.location = "rooms.html", 5000);
-            });
-
-            $("#GoToRooms").on("click", function () {
-                window.location = "rooms.html"
-            });
-        }
-
-
-
-
+        //    // your app code here
+        //}
 
     </script>
-
-
-
 </head>
 <body>
     <div id="afui">
@@ -113,7 +60,7 @@
                 <div style="text-align: center">
                     <br>
                     <br>
-                    <h1>गपशप</h1>
+                    <h1>गपशप </h1>
                     <br>
                     <br>
                     <p>Please register for gapshap</p>
@@ -144,9 +91,6 @@
             </div>
 
             <div class="panel" title="Login in" id="signin" data-footer="none">
-                <header>
-                    <h1>Gapshap</h1>
-                </header>
                 <div style="text-align: center">
                     <br>
                     <br>
