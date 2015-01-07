@@ -137,7 +137,8 @@
                 }
                 var myClientId = $.connection.hub.id;
 
-                localStorage.setItem("ConnId", myClientId); 
+                localStorage.setItem("ConnId", myClientId);
+                //chat.server.updateName(myClientId, $('#displayname').val());
 
                 var name = localStorage.getItem("Name");
 
@@ -201,6 +202,10 @@
                 var parentDiv = $.buildChatWindow(by);
 
                 $('#content').append(parentDiv);
+
+                window.scroller[by] = $("#" + by + " .MainComments").scroller({
+                    lockBounce: false
+                });
             }
         }
 
@@ -215,8 +220,10 @@
 
         var msg = $('<li>' + by + ' : ' + encodedMsg + '</li>');
 
-        $('div#' + by + ' .ChatWindow').append(msg); 
+        $('div#' + by + ' .ChatWindow').append(msg);
 
+        $.scrollOnMessage(by);
+       
     }
     // Personal Message from some one.
     chat.client.recievePersonalChat = function (message, by) {
@@ -239,6 +246,9 @@
 
             $('#content').append(parentDiv);
 
+            window.scroller[by] = $("#" + by + " .MainComments").scroller({
+                lockBounce: false
+            });
         }
 
         if (window.activeUser != by)
@@ -255,6 +265,8 @@
         if (window.background) {
             $.showNotification(by, message);
         }
+
+        $.scrollOnMessage(by);
     }
 
 
